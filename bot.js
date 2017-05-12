@@ -1,5 +1,7 @@
 console.log('initializing...');
 
+var fs = require('fs');
+var path = require('path');
 var Twit = require('twit');
 
 var config = require('./config');
@@ -51,36 +53,41 @@ function tweet(txt) {
 	}
 }
 
+function createGame(gameName, admin)
+{
+    var exists = false;
+    path.exists(gameName + '.json', function (b) { exists = b; })
+    if (exists) { tweet('@' + admin + ' - There is already a game with that name.'); return; }
+
+    fs.writeFile(gameName + '.json', '');
+	//find a way to encode:
+	//the username of the admin of the game
+	//player names
+	//the lock status of the game
+	//province & empire information
+}
+
+function addPlayerToGame(gameName, player)
+{
+    var contents = fs.readFileSync(gameName + ".json");
+    //if (contents.locked) { tweet('@' + admin + ' - You cannot join game - it is locked!'); return; }
+	//fs.writeFile(gameName + '.json', );
+	//find a way to edit the player names
+}
+
+function lockGame(gameName)
+{
+	//fs.writeFile(gameName + '.json', );
+	//edit the lock state
+}
+
+function deleteGame(gameName)
+{
+    //find out how to delete a json file
+}
+
 function dumpError(err) {
-	var fs = require('fs');
 	var json = JSON.stringify(err, null, 2);
 	fs.writeFile("err.json", json);
 }
-
-
-
-
-
-
-
-//CLASSES?
-var PlayerInfo = {
-    'name': '',
-    'level': 0,
-    'xp': 0,
-    'position': new Vector2,
-    'inventory': new Inventory
-};
-
-var Inventory = [new InventorySlot, new InventorySlot, new InventorySlot, new InventorySlot, new InventorySlot, new InventorySlot, new InventorySlot, new InventorySlot, new InventorySlot, new InventorySlot];
-
-var InventorySlot = {
-    'name': '',
-    'amount': 0
-};
-
-var Vector2 = {
-    'x': 0,
-    'y': 0
-};
 
