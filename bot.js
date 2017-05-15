@@ -11,44 +11,51 @@ var stream = T.stream('user');
 stream.on('tweet', tweetEvent);
 
 var emptyGameSave = {
-	'locked': false,
-	'admin': '',
-	'countries': {
-	    'AUSTRO-HUNGARIA': {
-	        'players': [],
-	        'provinces': ['bohemia', 'budapest', 'galicia', 'trieste', 'tyrelia', 'vienna']
-	    },
-	    'ENGLAND': {
-	        'players': [],
+    'locked': false,
+    'admin': '',
+    'countries': {
+        'AUSTRO-HUNGARIA': {
+            'players': [],
+            'color': [0, 0, 0, 0],
+            'provinces': ['bohemia', 'budapest', 'galicia', 'trieste', 'tyrelia', 'vienna']
+        },
+        'ENGLAND': {
+            'players': [],
+            'color': [0, 0, 0, 0],
             'provinces': ['clyde', 'edinburgh', 'liverpool', 'london', 'wales', 'yorkshire']
-	    },
-	    'FRANCE': {
-	        'players': [],
-	        'provinces': ['brest', 'burgundy', 'gascony', 'marseillas', 'paris', 'picardy']
-	    },
-	    'GERMANY': {
-	        'players': [],
-	        'provinces': ['berlin', 'kiel', 'munich', 'prussia', 'ruhr', 'silesia']
-	    },
-	    'ITALY': {
-	        'players': [],
-	        'provinces': ['apulia', 'naples', 'piedmont', 'rome', 'tuscany', 'venice']
-	    },
-	    'RUSSIA': {
-	        'players': [],
-	        'provinces': ['livonia', 'moscow', 'sevastapol', 'st petersburg', 'ukraine', 'warsaw']
-	    },
-	    'OTTOMANS': {
-	        'players': [],
-	        'provinces': ['ankara', 'armenia', 'constantinople', 'smyrna', 'syria']
-	    },
+        },
+        'FRANCE': {
+            'players': [],
+            'color': [0, 0, 0, 0],
+            'provinces': ['brest', 'burgundy', 'gascony', 'marseillas', 'paris', 'picardy']
+        },
+        'GERMANY': {
+            'players': [],
+            'color': [0, 0, 0, 0],
+            'provinces': ['berlin', 'kiel', 'munich', 'prussia', 'ruhr', 'silesia']
+        },
+        'ITALY': {
+            'players': [],
+            'color': [0, 0, 0, 0],
+            'provinces': ['apulia', 'naples', 'piedmont', 'rome', 'tuscany', 'venice']
+        },
+        'RUSSIA': {
+            'players': [],
+            'color': [0, 0, 0, 0],
+            'provinces': ['livonia', 'moscow', 'sevastapol', 'st petersburg', 'ukraine', 'warsaw']
+        },
+        'OTTOMANS': {
+            'players': [],
+            'color': [0, 0, 0, 0],
+            'provinces': ['ankara', 'armenia', 'constantinople', 'smyrna', 'syria']
+        },
         'NEUTRAL': {
             'provinces': ['albania', 'belgium', 'bulgaria', 'finland', 'greece', 'holland', 'norway', 'north africa', 'portugal', 'rumania', 'serbia', 'spain', 'sweden', 'tunis']
         }
-    
+
     }
 
-}
+};
 
 //this var is rather messy but it will be extremely useful when generating a picture of the current game map. 
 //the grayscale colors of each province will be in the color var for each province, and the center of the province (for placing armies and fleet icons) will be in the center pos var (probably in pixel coordinates)
@@ -156,7 +163,7 @@ function tweetEvent(eventMsg) {
 	if(replyTo === 'JohnLockeBot')
 	{
 		text = text.replace(/@JohnLockeBot /g, '');
-		//do something
+	    //do something
 	}
 
 }
