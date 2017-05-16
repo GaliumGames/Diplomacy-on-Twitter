@@ -146,6 +146,23 @@ var provinces = {
     'western mediteranean': { 'centerPos': [0, 0] }
 };
 
+//not finished
+var appreviations = [
+    ['bohemia', 'boh'],
+    ['budapest', 'bud'],
+    ['galicia', 'gal'],
+    ['trieste', 'tri'],
+    ['tyrelia', 'tyr'],
+    ['vienna', 'vie'],
+
+    ['clyde', 'cly'],
+    ['edinburgh', 'edi'],
+    ['liverpool', 'liv'],
+    ['london', 'lon'],
+    ['wales', 'wal'],
+    ['yorkshire', 'yor']
+]
+
 start();
 
 
@@ -176,7 +193,7 @@ function tweet(txt, to) {
 	
     if (to != '')
     {
-        txt = '@' + to + '' + txt;
+        txt = '@' + to + '' + txt + '[' + String(Math.floor(Math.random() * 1000)) + ']';
     }
 
 	var tweet = {
