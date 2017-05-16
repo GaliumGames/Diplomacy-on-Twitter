@@ -146,12 +146,11 @@ var provinces = {
     'western mediteranean': { 'centerPos': [0, 0] }
 };
 
-//not finished
-var appreviations = [
-    ['bohemia', 'boh'],
-    ['budapest', 'bud'],
-    ['galicia', 'gal'],
-    ['trieste', 'tri'],
+var abbreviations = [
+    ['bohemia', 'boh', 'bhm'],
+    ['budapest', 'bud', 'bdp'],
+    ['galicia', 'gal', 'glc'],
+    ['trieste', 'tri', 'trs'],
     ['tyrelia', 'tyr'],
     ['vienna', 'vie'],
 
@@ -160,7 +159,76 @@ var appreviations = [
     ['liverpool', 'liv'],
     ['london', 'lon'],
     ['wales', 'wal'],
-    ['yorkshire', 'yor']
+    ['yorkshire', 'yor'],
+	
+	['brest', 'bre'],
+	['burgundy', 'bur'],
+	['gascony', 'gas']
+	['marseillas', 'mar'],
+	['paris', 'par'],
+	['picardy', 'pic'],
+	
+	['berlin', 'ber'],
+	['kiel', 'kie']
+	['munich', 'mun'],
+	['prussia', 'pru']
+	['ruhr', 'ruh'],
+	['silesia', 'sil'],
+	
+	['apulia', 'apu'],
+    ['naples', 'nap'],
+    ['piedmont', 'pie'],
+    ['rome', 'rom'],
+    ['tuscany', 'tus', 'tsc'],
+    ['venice', 'ven', 'vnc'],
+	
+	['livonia', 'liv'],
+    ['moscow', 'mos'],
+    ['sevastapol', 'sev'],
+    ['st petersburg', 'stp'],
+    ['ukraine', 'ukr'],
+    ['warsaw', 'war'],
+
+    ['ankara', 'ank'],
+    ['armenia', 'arm'],
+    ['constantinople', 'con'],
+    ['smyrna', 'smy'],
+    ['syria', 'syr'],
+
+    ['albania', 'alb'],
+    ['belgium', 'bel'],
+    ['bulgaria', 'bul'],
+    ['finland', 'fin'],
+    ['greece', 'gre', 'grc'],
+    ['holland', 'hol', 'holl'],
+    ['norway', 'nor', 'norw'],
+    ['north africa', 'nafr', 'naf'],
+    ['portugal', 'por', 'prtg'],
+    ['rumania', 'rum'],
+    ['serbia', 'ser', 'serb'],
+    ['spain', 'spa', 'spn'],
+    ['sweden', 'swe', 'swd'],
+    ['tunis', 'tun', 'tns'],
+
+    ['adriatic sea', 'adr'],
+    ['aegean sea', 'aeg'],
+    ['baltic sea', 'bal'],
+    ['barents sea', 'bar'],
+    ['black sea', 'bla'],
+    ['eastern mediterranean', 'eas', 'emd'],
+    ['english channel', 'eng'],
+    ['gulf of bothnia', 'bot', 'gob'],
+    ['gulf of lyon', 'lyo', 'lyn',  'gol'],
+    ['helgoland bight', 'hel', 'hlg', 'hlb'],
+    ['ionian sea', 'ion'],
+    ['irish sea', 'iri'],
+    ['mid-atlantic ocean', 'mid', 'mat'],
+    ['north atlantic ocean', 'nat'],
+    ['north sea', 'nor', 'nth'],
+    ['norwegian sea', 'nrg', 'nrw'],
+    ['skagerrak', 'ska'],
+    ['tyrrhenian sea', 'tyh'],
+    ['western mediteranean', 'wes', 'wmd']
 ]
 
 start();
@@ -281,6 +349,42 @@ function deleteGame(gameName, commandFrom) //delete the save file
     fs.unlinkSync(saveDirectory + gameName + '.json');
 
     tweet(gameName + ' has been deleted.', commandFrom);
+}
+
+function stringifyAppreviations(province)
+{
+    //find array num
+    var arrayNum = undefined;
+    for (var i = 0; i < abbreviations.length; i++)
+    {
+        if (abbreviations[i][0] == province)
+        {
+            arrayNum = i;
+            break;
+        }
+    }
+
+    //test to see if exists
+    if (arrayNum == undefined)
+    {
+        return 'ERROR: No such province.';
+    }
+
+    var string = '';
+
+    if (province != '')
+    {
+        string += 'Abbreviations for \'' + abbreviations[arrayNum][0] + '\':' + '\n';
+        for (var i = 1; i < abbreviations[arrayNum].length; i++)
+        {
+            if (i != 1) string += '\n';
+            string += String(i) + ') ' + abbreviations[arrayNum][i];
+        }
+
+        return string;
+    }
+
+    string += ''
 }
 
 function dumpError(err) {
