@@ -10,6 +10,8 @@ var stream = T.stream('user');
 
 stream.on('tweet', tweetEvent);
 
+var saveDirectory = __dirname + '/games/';
+
 var emptyGameSave = {
     'locked': false,
     'admin': '',
@@ -149,7 +151,7 @@ start();
 
 function start()
 {
-	console.log('The Diplomacy Bot has started');
+    console.log('The Diplomacy Bot has started');
 }
 
 function tweetEvent(eventMsg) {
@@ -188,29 +190,26 @@ function tweet(txt) {
 
 function createGame(gameName, admin)
 {
-    var exists = false;
-    path.exists(gameName + '.json', function (b) { exists = b; })
-    if (exists) { tweet('@' + admin + ' - There is already a game with that name.'); return; }
+    var error = null;
+    //path.exists(gameName + '.json', function (b) { exists = b; });
+    fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; }); // returns null if it doesn't exist
+    if (error != null) { tweet('@' + admin + ' - There is already a game with that name.'); return; }
 
     var save = emptyGameSave;
     save.admin = admin;
     var jsonSave = JSON.stringify(save, null, 2);
 
-    fs.writeFile(gameName + '.json', jsonSave);
-	//find a way to encode:
-	//the username of the admin of the game X
-	//player names X
-	//the lock status of the game X
-	//province & empire information X
+    fs.writeFileSync(saveDirectory + gameName + '.json', jsonSave);
 }
 
 function addPlayerToGame(gameName, player, country) //add a player to a country
 {
-    var exists = false;
-    path.exists(gameName + '.json', function (b) { exists = b; })
-    if (!exists) { tweet('There is no game with name ' + gameName); return; }
+    var error = null;
+    //path.exists(gameName + '.json', function (b) { exists = b; })
+    fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; });
+    if (error != null) { tweet('There is no game with name ' + gameName); return; }
 
-    var save = fs.readFileSync(gameName + ".json");
+    var save = JSON.parse(fs.readFileSync(saveDirectory + gameName + '.json'));
 
     if (save.locked) { tweet('@' + player + ' - You cannot join game - it is locked!'); return; }
 
@@ -218,21 +217,23 @@ function addPlayerToGame(gameName, player, country) //add a player to a country
 
     var jsonSave = JSON.stringify(save, null, 2);
 
-	fs.writeFile(gameName + '.json', jsonSave);
+    fs.writeFileSync(saveDirectory + gameName + '.json', jsonSave);
 }
 
 function lockGame(gameName) //edit the lock state
 {
-    var exists = false;
-    path.exists(gameName + '.json', function (b) { exists = b; })
-    if (!exists) { tweet('There is no game with name ' + gameName); return; }
+    var error = null;
+    //path.exists(gameName + '.json', function (b) { exists = b; });
+    fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; });
+    if (error != null) { tweet('There is no game with name ' + gameName); return; }
 
-    var save = fs.readFileSync(gameName + '.json');
+    var save = JSON.parse(fs.readFileSync(saveDirectory + gameName + '.json'));
+
     save.locked = true;
 
     var jsonSave = JSON.stringify(save, null, 2);
 
-    fs.writeFile(gameName + '.json', jsonSave);
+    fs.writeFileSync(saveDirectory + gameName + '.json', jsonSave);
 }
 
 function deleteGame(gameName) //delete the save file
