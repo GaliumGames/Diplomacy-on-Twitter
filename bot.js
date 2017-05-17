@@ -146,6 +146,91 @@ var provinces = {
     'western mediteranean': { 'centerPos': [0, 0] }
 };
 
+var abbreviations = [
+    ['bohemia', 'boh', 'bhm'],
+    ['budapest', 'bud', 'bdp'],
+    ['galicia', 'gal', 'glc'],
+    ['trieste', 'tri', 'trs'],
+    ['tyrelia', 'tyr'],
+    ['vienna', 'vie'],
+
+    ['clyde', 'cly'],
+    ['edinburgh', 'edi'],
+    ['liverpool', 'liv'],
+    ['london', 'lon'],
+    ['wales', 'wal'],
+    ['yorkshire', 'yor'],
+	
+	['brest', 'bre'],
+	['burgundy', 'bur'],
+	['gascony', 'gas']
+	['marseillas', 'mar'],
+	['paris', 'par'],
+	['picardy', 'pic'],
+	
+	['berlin', 'ber'],
+	['kiel', 'kie']
+	['munich', 'mun'],
+	['prussia', 'pru']
+	['ruhr', 'ruh'],
+	['silesia', 'sil'],
+	
+	['apulia', 'apu'],
+    ['naples', 'nap'],
+    ['piedmont', 'pie'],
+    ['rome', 'rom'],
+    ['tuscany', 'tus', 'tsc'],
+    ['venice', 'ven', 'vnc'],
+	
+	['livonia', 'liv'],
+    ['moscow', 'mos'],
+    ['sevastapol', 'sev'],
+    ['st petersburg', 'stp'],
+    ['ukraine', 'ukr'],
+    ['warsaw', 'war'],
+
+    ['ankara', 'ank'],
+    ['armenia', 'arm'],
+    ['constantinople', 'con'],
+    ['smyrna', 'smy'],
+    ['syria', 'syr'],
+
+    ['albania', 'alb'],
+    ['belgium', 'bel'],
+    ['bulgaria', 'bul'],
+    ['finland', 'fin'],
+    ['greece', 'gre', 'grc'],
+    ['holland', 'hol', 'holl'],
+    ['norway', 'nor', 'norw'],
+    ['north africa', 'nafr', 'naf'],
+    ['portugal', 'por', 'prtg'],
+    ['rumania', 'rum'],
+    ['serbia', 'ser', 'serb'],
+    ['spain', 'spa', 'spn'],
+    ['sweden', 'swe', 'swd'],
+    ['tunis', 'tun', 'tns'],
+
+    ['adriatic sea', 'adr'],
+    ['aegean sea', 'aeg'],
+    ['baltic sea', 'bal'],
+    ['barents sea', 'bar'],
+    ['black sea', 'bla'],
+    ['eastern mediterranean', 'eas', 'emd'],
+    ['english channel', 'eng'],
+    ['gulf of bothnia', 'bot', 'gob'],
+    ['gulf of lyon', 'lyo', 'lyn',  'gol'],
+    ['helgoland bight', 'hel', 'hlg', 'hlb'],
+    ['ionian sea', 'ion'],
+    ['irish sea', 'iri'],
+    ['mid-atlantic ocean', 'mid', 'mat'],
+    ['north atlantic ocean', 'nat'],
+    ['north sea', 'nor', 'nth'],
+    ['norwegian sea', 'nrg', 'nrw'],
+    ['skagerrak', 'ska'],
+    ['tyrrhenian sea', 'tyh'],
+    ['western mediteranean', 'wes', 'wmd']
+]
+
 start();
 
 
@@ -170,10 +255,15 @@ function tweetEvent(eventMsg) {
 
 }
 
-function tweet(txt) {
+function tweet(txt, to) {
 	
 	//txt += '[' + String(Math.floor(Math.random() * 10000)) + ']';
 	
+    if (to != '')
+    {
+        txt = '@' + to + '' + txt + '[' + String(Math.floor(Math.random() * 1000)) + ']';
+    }
+
 	var tweet = {
 		status: txt
 	}
@@ -191,58 +281,113 @@ function tweet(txt) {
 function createGame(gameName, admin)
 {
     var error = null;
-    //path.exists(gameName + '.json', function (b) { exists = b; });
+
     fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; }); // returns null if it doesn't exist
-    if (error != null) { tweet('@' + admin + ' - There is already a game with that name.'); return; }
+    if (error != null) { tweet('There is already a game with that name.', admin); return; }
 
     var save = emptyGameSave;
     save.admin = admin;
     var jsonSave = JSON.stringify(save, null, 2);
 
     fs.writeFileSync(saveDirectory + gameName + '.json', jsonSave);
+
+    tweet('You have created a game with name ' + gameName + '.', admin);
 }
 
 function addPlayerToGame(gameName, player, country) //add a player to a country
 {
     var error = null;
-    //path.exists(gameName + '.json', function (b) { exists = b; })
+
     fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; });
-    if (error != null) { tweet('There is no game with name ' + gameName); return; }
+    if (error != null) { tweet('There is no game with name ' + gameName + '.', player); return; }
 
     var save = JSON.parse(fs.readFileSync(saveDirectory + gameName + '.json'));
 
-    if (save.locked) { tweet('@' + player + ' - You cannot join game - it is locked!'); return; }
+    if (save.locked) { tweet('You cannot join game - it is locked!', player); return; }
 
     save.countries[country].players.push(player);
 
     var jsonSave = JSON.stringify(save, null, 2);
 
     fs.writeFileSync(saveDirectory + gameName + '.json', jsonSave);
+
+    tweet('You have joined ' + gameName + ' as ' + country + '.', player);
 }
 
-function lockGame(gameName) //edit the lock state
+function lockGame(gameName, commandFrom) //edit the lock state
 {
     var error = null;
-    //path.exists(gameName + '.json', function (b) { exists = b; });
+
     fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; });
-    if (error != null) { tweet('There is no game with name ' + gameName); return; }
+    if (error != null) { tweet('There is no game with name ' + gameName + '.', commandFrom); return; }
 
     var save = JSON.parse(fs.readFileSync(saveDirectory + gameName + '.json'));
+
+    if (save.admin != commandFrom) { tweet('You do not have the authority to lock ' + gameName + '.', commandFrom); return; }
 
     save.locked = true;
 
     var jsonSave = JSON.stringify(save, null, 2);
 
     fs.writeFileSync(saveDirectory + gameName + '.json', jsonSave);
+
+    tweet('The game ' + gameName + ' has been locked.', commandFrom);
 }
 
-function deleteGame(gameName) //delete the save file
+function deleteGame(gameName, commandFrom) //delete the save file
 {
     //find out how to delete a json file
+    var error = null;
+
+    fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; });
+    if (error != null) { tweet('There is no game with name ' + gameName + '.'); return; }
+
+    var save = JSON.parse(fs.readFileSync(saveDirectory + gameName + '.json'));
+
+    if (save.admin != commandFrom) { tweet('You do not have the authority to delete ' + gameName + '.', commandFrom); return; }
+
+    fs.unlinkSync(saveDirectory + gameName + '.json');
+
+    tweet(gameName + ' has been deleted.', commandFrom);
+}
+
+function stringifyAppreviations(province)
+{
+    //find array num
+    var arrayNum = undefined;
+    for (var i = 0; i < abbreviations.length; i++)
+    {
+        if (abbreviations[i][0] == province)
+        {
+            arrayNum = i;
+            break;
+        }
+    }
+
+    //test to see if exists
+    if (arrayNum == undefined)
+    {
+        return 'ERROR: No such province.';
+    }
+
+    var string = '';
+
+    if (province != '')
+    {
+        string += 'Abbreviations for \'' + abbreviations[arrayNum][0] + '\':' + '\n';
+        for (var i = 1; i < abbreviations[arrayNum].length; i++)
+        {
+            if (i != 1) string += '\n';
+            string += String(i) + ') ' + abbreviations[arrayNum][i];
+        }
+
+        return string;
+    }
+
+    string += ''
 }
 
 function dumpError(err) {
 	var json = JSON.stringify(err, null, 2);
 	fs.writeFile("err.json", json);
 }
-
