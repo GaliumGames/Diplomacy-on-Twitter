@@ -7,332 +7,332 @@
   },
   {
     "name": "ank",
-    "red": 33,
+    "red": 13,
     "green": 10,
     "blue": 10
   },
   {
     "name": "apu",
-    "red": 44,
+    "red": 14,
     "green": 10,
     "blue": 10
   },
   {
     "name": "arm",
-    "red": 55,
+    "red": 15,
     "green": 10,
     "blue": 10
   },
   {
     "name": "bel",
-    "red": 68,
+    "red": 18,
     "green": 10,
     "blue": 10
   },
   {
     "name": "ber",
-    "red": 79,
+    "red": 19,
     "green": 10,
     "blue": 10
   },
   {
     "name": "boh",
-    "red": 80,
+    "red": 10,
     "green": 12,
     "blue" : 10
   },
   {
     "name": "bre",
-    "red": 90,
+    "red": 10,
     "green": 13,
     "blue": 10
   },
   {
     "name": "bud",
-    "red": 100,
+    "red": 10,
     "green": 17,
     "blue": 10
   },
   {
     "name": "bul",
-    "red": 110,
+    "red": 10,
     "green": 18,
     "blue": 10
   },
   {
     "name": "bur",
-    "red": 120,
+    "red": 10,
     "green": 19,
     "blue": 10
   },
   {
     "name": "cly",
-    "red": 130,
+    "red": 10,
     "green": 10,
     "blue": 11
   },
   {
     "name": "con",
-    "red": 140,
+    "red": 10,
     "green": 10,
     "blue": 12
   },
   {
     "name": "den",
-    "red": 150,
+    "red": 10,
     "green": 10,
     "blue": 13
   },
   {
     "name": "edi",
-    "red": 160,
+    "red": 10,
     "green": 10,
     "blue": 15
   },
   {
     "name": "fin",
-    "red": 170,
+    "red": 10,
     "green": 10,
     "blue": 17
   },
   {
     "name": "gal",
-    "red": 180,
+    "red": 10,
     "green": 10,
     "blue": 18
   },
   {
     "name": "gas",
-    "red": 190,
+    "red": 10,
     "green": 10,
     "blue": 19
   },
   {
     "name": "gre",
     "red": 11,
-    "green": 111,
+    "green": 11,
     "blue": 10
   },
   {
     "name": "hol",
     "red": 15,
-    "green": 121,
+    "green": 11,
     "blue": 10
   },
   {
     "name": "kie",
     "red": 19,
-    "green": 131,
+    "green": 11,
     "blue": 10
   },
   {
     "name": "lvp",
     "red": 11,
-    "green": 142,
+    "green": 12,
     "blue": 10
   },
   {
     "name": "lvn",
     "red": 11,
-    "green": 153,
+    "green": 13,
     "blue": 10
   },
   {
     "name": "lon",
     "red": 11,
-    "green": 164,
+    "green": 14,
     "blue": 10
   },
   {
     "name": "mar",
     "red": 11,
-    "green": 175,
+    "green": 15,
     "blue": 10
   },
   {
     "name": "mos",
     "red": 11,
-    "green": 187,
+    "green": 17,
     "blue": 10
   },
   {
     "name": "mun",
     "red": 11,
-    "green": 198,
+    "green": 18,
     "blue": 10
   },
   {
     "name": "nap",
     "red": 11,
     "green": 19,
-    "blue": 110
+    "blue": 10
   },
   {
     "name": "naf",
     "red": 12,
     "green": 11,
-    "blue": 121
+    "blue": 11
   },
   {
     "name": "nor",
     "red": 14,
     "green": 11,
-    "blue": 131
+    "blue": 11
   },
   {
     "name": "par",
     "red": 16,
     "green": 11,
-    "blue": 141
+    "blue": 11
   },
   {
     "name": "pic",
     "red": 17,
     "green": 11,
-    "blue": 151
+    "blue": 11
   },
   {
     "name": "pie",
     "red": 18,
     "green": 11,
-    "blue": 161
+    "blue": 11
   },
   {
     "name": "por",
     "red": 19,
     "green": 11,
-    "blue": 171
+    "blue": 11
   },
   {
     "name": "pru",
     "red": 11,
     "green": 12,
-    "blue": 181
+    "blue": 11
   },
   {
     "name": "rom",
     "red": 11,
     "green": 13,
-    "blue": 191
+    "blue": 11
   },
   {
     "name": "ruh",
     "red": 11,
     "green": 14,
-    "blue": 211
+    "blue": 11
   },
   {
     "name": "rum",
     "red": 11,
     "green": 15,
-    "blue": 221
+    "blue": 11
   },
   {
     "name": "ser",
     "red": 21,
-    "green": 111,
-    "blue": 211
+    "green": 11,
+    "blue": 11
   },
   {
     "name": "sev",
     "red": 11,
-    "green": 126,
-    "blue": 121
+    "green": 16,
+    "blue": 11
   },
   {
     "name": "sil",
     "red": 11,
-    "green": 137,
-    "blue": 131
+    "green": 17,
+    "blue": 11
   },
   {
     "name": "smy",
     "red": 11,
-    "green": 149,
-    "blue": 141
+    "green": 19,
+    "blue": 11
   },
   {
     "name": "spa",
     "red": 11,
-    "green": 151,
-    "blue": 152
+    "green": 11,
+    "blue": 12
   },
   {
     "name": "stp",
     "red": 11,
-    "green": 161,
-    "blue": 163
+    "green": 11,
+    "blue": 13
   },
   {
     "name": "swe",
     "red": 11,
-    "green": 171,
-    "blue": 174
+    "green": 11,
+    "blue": 14
   },
   {
     "name": "syr",
     "red": 11,
-    "green": 181,
-    "blue": 186
+    "green": 11,
+    "blue": 16
   },
   {
     "name": "tri",
     "red": 11,
-    "green": 191,
-    "blue": 197
+    "green": 11,
+    "blue": 17
   },
   {
     "name": "tun",
-    "red": 111,
-    "green": 111,
+    "red": 11,
+    "green": 11,
     "blue": 18
   },
   {
     "name": "tus",
-    "red": 121,
-    "green": 121,
+    "red": 11,
+    "green": 11,
     "blue": 19
   },
   {
     "name": "tyr",
-    "red": 132,
-    "green": 132,
+    "red": 12,
+    "green": 12,
     "blue": 11
   },
   {
     "name": "ukr",
-    "red": 144,
-    "green": 142,
+    "red": 14,
+    "green": 12,
     "blue": 11
   },
   {
     "name": "ven",
-    "red": 155,
-    "green": 152,
+    "red": 15,
+    "green": 12,
     "blue": 11
   },
   {
     "name": "vie",
-    "red": 262,
-    "green": 161,
+    "red": 22,
+    "green": 11,
     "blue": 11
   },
   {
     "name": "wal",
-    "red": 176,
-    "green": 172,
+    "red": 16,
+    "green": 12,
     "blue": 11
   },
   {
     "name": "war",
-    "red": 187,
-    "green": 182,
+    "red": 17,
+    "green": 12,
     "blue": 11
   },
   {
     "name" : "yor",
-    "red" : 199,
-    "green" : 192,
+    "red" : 19,
+    "green" : 12,
     "blue" : 11
   }
 ]
