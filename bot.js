@@ -21,7 +21,7 @@ var emptyGameSave = {
             'color': [0, 0, 0, 0],
             'provinces': ['bohemia', 'budapest', 'galicia', 'trieste', 'tyrelia', 'vienna']
         },
-        'ENGLAND': {
+        'GREAT BRITAIN': {
             'players': [],
             'color': [0, 0, 0, 0],
             'provinces': ['clyde', 'edinburgh', 'liverpool', 'london', 'wales', 'yorkshire']
@@ -61,7 +61,8 @@ var emptyGameSave = {
 
 //this var is rather messy but it will be extremely useful when generating a picture of the current game map. 
 //the grayscale colors of each province will be in the color var for each province, and the center of the province (for placing armies and fleet icons) will be in the center pos var (probably in pixel coordinates)
-var provinces = {
+//we won't be needing it probably
+/*var provinces = {
     'bohemia': { 'color': [0, 0, 0, 0], 'centerPos': [0, 0] },
     'budapest': { 'color': [0, 0, 0, 0], 'centerPos': [0, 0] },
     'galicia': { 'color': [0, 0, 0, 0], 'centerPos': [0, 0] },
@@ -144,7 +145,17 @@ var provinces = {
     'skagerrak': { 'centerPos': [0, 0] },
     'tyrrhenian sea': { 'centerPos': [0, 0] },
     'western mediteranean': { 'centerPos': [0, 0] }
-};
+};*/
+
+var countries = [
+    'AUSTRO-HUNGARIA',
+    'GREAT BRITAIN',
+    'FRANCE',
+    'ITALY',
+    'GERMANY',
+    'RUSSIA',
+    'OTTOMANS'
+]
 
 var abbreviations = [
     ['bohemia', 'boh', 'bhm'],
@@ -249,8 +260,14 @@ function tweetEvent(eventMsg) {
 
 	if(replyTo === 'JohnLockeBot')
 	{
-		text = text.replace(/@JohnLockeBot /g, '');
-	    //do something
+	    text = text.replace(/@JohnLockeBot /g, '');
+
+	    var split = twt.split('[');
+	    twt = split[0];
+	    var split2 = split[1].split(']');
+	    twt += split2[1];
+
+        scanForCommands(twt, personFrom);
 	}
 
 }
@@ -278,12 +295,55 @@ function tweet(txt, to) {
 	}
 }
 
+function scanForCommands(twt, from)
+{
+    twt = twt.replace('start game ', 'create game ');
+    twt = twt.replace('make game ', 'create game ');
+
+    twt = twt.replace('close ', 'lock ');
+
+    twt = twt.replace('end ', 'delete ');
+
+
+    if (twt.includes('create game ')) //create game
+    {
+        var context = twt.replace('create game ', '');
+        createGame(context, from);
+    }
+    else if (twt.includes('join ')) //join game
+    {
+        var context = twt.replace('join ', '');
+        var gameName = '';
+        var country = '';
+
+        for (var i = 0; i < countries.length; i++) {
+            if (context.includes(countries[i])) {
+                gameName = context.replace(countries[i], '');
+                country = countries[i];
+                break;
+            }
+        }
+
+        addPlayerToGame(gameName, from, country);
+    }
+    else if (twt.includes('lock ')) //lock game
+    {
+        var context = twt.replace('lock ', '');
+        lockGame(context, from);
+    }
+    else if (twt.includes('delete ')) //delete game
+    {
+        var context = twt.replace('delete ', '');
+        deleteGame(context, from);
+    }
+}
+
 function createGame(gameName, admin)
 {
     var error = null;
 
     fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; }); // returns null if it doesn't exist
-    if (error != null) { tweet('There is already a game with that name.', admin); return; }
+    if (error != null) { tweet('There is already a game with that name. Please choose another name for your game.', admin); return; }
 
     var save = emptyGameSave;
     save.admin = admin;
@@ -291,7 +351,7 @@ function createGame(gameName, admin)
 
     fs.writeFileSync(saveDirectory + gameName + '.json', jsonSave);
 
-    tweet('You have created a game with name ' + gameName + '.', admin);
+    tweet('You have created a game with name ' + gameName + '. Tell your friends so they can join!', admin);
 }
 
 function addPlayerToGame(gameName, player, country) //add a player to a country
@@ -305,13 +365,15 @@ function addPlayerToGame(gameName, player, country) //add a player to a country
 
     if (save.locked) { tweet('You cannot join game - it is locked!', player); return; }
 
+    if (save.countries[country] == undefined) { tweet('That is not a valid country!\nPlease join \'AUSTRO-HUNGARIA\', \'GREAT BRITAIN\', \'FRANCE\', \'ITALY\', \'GERMANY\', \'RUSSIA\', or \'OTTOMANS\'.', player); return; }
+
     save.countries[country].players.push(player);
 
     var jsonSave = JSON.stringify(save, null, 2);
 
     fs.writeFileSync(saveDirectory + gameName + '.json', jsonSave);
 
-    tweet('You have joined ' + gameName + ' as ' + country + '.', player);
+    tweet('You have joined ' + gameName + ' as \'' + country + '\'.', player);
 }
 
 function lockGame(gameName, commandFrom) //edit the lock state
@@ -323,7 +385,7 @@ function lockGame(gameName, commandFrom) //edit the lock state
 
     var save = JSON.parse(fs.readFileSync(saveDirectory + gameName + '.json'));
 
-    if (save.admin != commandFrom) { tweet('You do not have the authority to lock ' + gameName + '.', commandFrom); return; }
+    if (save.admin != commandFrom) { tweet('You do not have the authority to lock ' + gameName + '. You are not its admin.', commandFrom); return; }
 
     save.locked = true;
 
@@ -331,7 +393,7 @@ function lockGame(gameName, commandFrom) //edit the lock state
 
     fs.writeFileSync(saveDirectory + gameName + '.json', jsonSave);
 
-    tweet('The game ' + gameName + ' has been locked.', commandFrom);
+    tweet('The game ' + gameName + ' has been locked. No more players may join it.', commandFrom);
 }
 
 function deleteGame(gameName, commandFrom) //delete the save file
@@ -348,7 +410,7 @@ function deleteGame(gameName, commandFrom) //delete the save file
 
     fs.unlinkSync(saveDirectory + gameName + '.json');
 
-    tweet(gameName + ' has been deleted.', commandFrom);
+    tweet(gameName + ' has been deleted. Thank you for playing!', commandFrom);
 }
 
 function stringifyAppreviations(province)
