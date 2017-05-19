@@ -300,6 +300,8 @@ function scanForCommands(twt, from)
     twt = twt.replace('start game ', 'create game ');
     twt = twt.replace('make game ', 'create game ');
 
+    twt = twt.replace('exit ', 'quit ');
+
     twt = twt.replace('close ', 'lock ');
 
     twt = twt.replace('end ', 'delete ');
@@ -325,6 +327,11 @@ function scanForCommands(twt, from)
         }
 
         addPlayerToGame(gameName, from, country);
+    }
+    else if (twt.includes('quit ')) //quit game
+    {
+        var context = twt.replace('quit ', '');
+        removePlayerFromGame(context, from);
     }
     else if (twt.includes('lock ')) //lock game
     {
@@ -374,6 +381,35 @@ function addPlayerToGame(gameName, player, country) //add a player to a country
     fs.writeFileSync(saveDirectory + gameName + '.json', jsonSave);
 
     tweet('You have joined ' + gameName + ' as \'' + country + '\'.', player);
+}
+
+function removePlayerFromGame(gameName, player)
+{
+    var error = null;
+
+    fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; });
+    if (error != null) { tweet('There is no game with name ' + gameName + '.', player); return; }
+
+    var save = JSON.parse(fs.readFileSync(saveDirectory + gameName + '.json'));
+
+    for (var c = 0; c < countries.length; c++)
+    {
+        for (var i = 0; i < save.countries(countries[c]); i++)
+        {
+            if (player == save.countries[countries[c]][i])
+            {
+                save.countries[countries[c]].slice(i);
+                break;
+            }
+        }
+    }
+
+    var jsonSave = JSON.stringify(save, null, 2);
+
+    fs.writeFileSync(saveDirectory + gameName + '.json', jsonSave);
+
+    tweet('You have quit ' + gameName + '.', player);
+
 }
 
 function lockGame(gameName, commandFrom) //edit the lock state
