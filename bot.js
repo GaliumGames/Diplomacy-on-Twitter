@@ -255,7 +255,7 @@ function start()
 function tweetEvent(eventMsg) {
 	
     var replyTo = eventMsg.in_reply_to_screen_name;
-    var from = eventMsg.personFrom;
+    var personFrom = eventMsg.personFrom;
 	var text = eventMsg.text;
 	var senderUserName = eventMsg.user.screen_name;
 	var senderName = eventMsg.user.name;
@@ -279,13 +279,13 @@ function tweetEvent(eventMsg) {
 
 }
 
-function tweet(txt, to) {
+function tweet(txt, personTo) {
 	
 	//txt += '[' + String(Math.floor(Math.random() * 10000)) + ']';
 	
     if (to != '')
     {
-        txt = '@' + to + '' + txt + '[' + String(Math.floor(Math.random() * 1000)) + ']';
+        txt = '@' + personTo + ' ' + txt + ' [' + String(Math.floor(Math.random() * 1000)) + ']';
     }
 
 	var tweet = {
@@ -302,7 +302,7 @@ function tweet(txt, to) {
 	}
 }
 
-function scanForCommands(twt, from)
+function scanForCommands(twt, personFrom)
 {
     twt = twt.replace('start game ', 'create game ');
     twt = twt.replace('make game ', 'create game ');
@@ -317,7 +317,7 @@ function scanForCommands(twt, from)
     if (twt.includes('create game ')) //create game
     {
         var context = twt.replace('create game ', '');
-        createGame(context, from);
+        createGame(context, personFrom);
     }
     else if (twt.includes('join ')) //join game
     {
@@ -333,22 +333,22 @@ function scanForCommands(twt, from)
             }
         }
 
-        addPlayerToGame(gameName, from, country);
+        addPlayerToGame(gameName, personFrom, country);
     }
     else if (twt.includes('quit ')) //quit game
     {
         var context = twt.replace('quit ', '');
-        removePlayerFromGame(context, from);
+        removePlayerFromGame(context, personFrom);
     }
     else if (twt.includes('lock ')) //lock game
     {
         var context = twt.replace('lock ', '');
-        lockGame(context, from);
+        lockGame(context, personFrom);
     }
     else if (twt.includes('delete ')) //delete game
     {
         var context = twt.replace('delete ', '');
-        deleteGame(context, from);
+        deleteGame(context, personFrom);
     }
 }
 
