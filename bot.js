@@ -262,8 +262,10 @@ function tweetEvent(eventMsg) {
 
 	if(replyTo === 'JohnLockeBot')
 	{
-	    text = text.replace(/@JohnLockeBot /g, '');
-
+	    console.log('The bot has been tweeted by ' + personFrom + ' - ' + text);
+		
+		text = text.replace(/@JohnLockeBot /g, '');
+		
 	    //var split = text.split('[');
 	    //text = split[0];
 	    //var split2 = split[1].split(']');
@@ -283,7 +285,7 @@ function tweet(txt, personTo) {
 	
 	//txt += '[' + String(Math.floor(Math.random() * 10000)) + ']';
 	
-    if (to != '')
+    if (personTo != '')
     {
         txt = '@' + personTo + ' ' + txt + ' [' + String(Math.floor(Math.random() * 1000)) + ']';
     }
