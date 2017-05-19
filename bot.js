@@ -242,6 +242,8 @@ var abbreviations = [
     ['western mediteranean', 'wes', 'wmd']
 ]
 
+var endTweetChars = ['.', ',', '?'];
+
 start();
 
 
@@ -262,12 +264,17 @@ function tweetEvent(eventMsg) {
 	{
 	    text = text.replace(/@JohnLockeBot /g, '');
 
-	    var split = twt.split('[');
-	    twt = split[0];
-	    var split2 = split[1].split(']');
-	    twt += split2[1];
+	    //var split = text.split('[');
+	    //text = split[0];
+	    //var split2 = split[1].split(']');
+	    //text += split2[1];
 
-        scanForCommands(twt, personFrom);
+	    for (var i = 0; i < endTweetChars.length; i++)
+	    {
+	        text = text.split(endTweetChars[i])[0];
+	    }
+
+	    scanForCommands(text, personFrom);
 	}
 
 }
