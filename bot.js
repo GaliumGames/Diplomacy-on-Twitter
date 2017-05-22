@@ -250,6 +250,16 @@ start();
 function start()
 {
     console.log('The Diplomacy Bot has started');
+
+    run();
+}
+
+function run()
+{
+    while (true)
+    {
+
+    }
 }
 
 function tweetEvent(eventMsg) {
