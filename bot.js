@@ -56,6 +56,8 @@ var emptyGameSave = {
         }
 
     },
+    'resetAt': 24,
+    'turnLength': 12
 };
 
 //this var is rather messy but it will be extremely useful when generating a picture of the current game map. 
