@@ -55,8 +55,7 @@ var emptyGameSave = {
             'provinces': ['albania', 'belgium', 'bulgaria', 'finland', 'greece', 'holland', 'norway', 'north africa', 'portugal', 'rumania', 'serbia', 'spain', 'sweden', 'tunis']
         }
 
-    }
-
+    },
 };
 
 //this var is rather messy but it will be extremely useful when generating a picture of the current game map. 
@@ -244,6 +243,8 @@ var abbreviations = [
 
 var endTweetChars = ['.', ',', '?'];
 
+var runningGames = [];
+
 start();
 
 
@@ -286,6 +287,8 @@ function tweetEvent(eventMsg) {
 	        text = text.split(endTweetChars[i])[0];
 	    }
 
+	    console.log('Recieved tweet: ' + eventMsg.text);
+
 	    scanForCommands(text, senderUserName);
 	}
 
@@ -319,14 +322,21 @@ function tweet(txt, personTo) {
 
 function scanForCommands(twt, personFrom)
 {
-    twt = twt.replace('start game ', 'create game ');
+    //twt = twt.replace('start game ', 'create game ');
     twt = twt.replace('make game ', 'create game ');
 
     twt = twt.replace('exit game ', 'quit game ');
 
     twt = twt.replace('close game ', 'lock game ');
 
+    twt = twt.replace('begin game ', 'start game ');
+
     twt = twt.replace('end game ', 'delete game ');
+
+    twt = twt.replace('resetTime ', 'resetAt ');
+    twt = twt.replace('reset time ', 'resetAt ');
+
+    twt = twt.replace('turn length ', 'turnLength ');
 
 
     if (twt.includes('create game ')) //create game
@@ -361,10 +371,33 @@ function scanForCommands(twt, personFrom)
         var context = twt.replace('lock game ', '');
         lockGame(context, personFrom);
     }
+    else if (twt.includes('start game '))
+    {
+        var context = twt.replace('start game ');
+        startGame(context, personFrom);
+    }
     else if (twt.includes('delete game ')) //delete game
     {
         var context = twt.replace('delete game ', '');
         deleteGame(context, personFrom);
+    }
+    else if (twt.includes('resetAt '))
+    {
+        var split = (twt.replace('resetAt ', '')).split(' ');
+        var num = split[0]; var game = split[1];
+
+        setResetAt(game, num, personFrom);
+    }
+    else if (twt.includes('turnLength ')) {
+        var split = (twt.replace('turnLength ', '')).split(' ');
+        var num = split[0]; var game = split[1];
+
+        setTurnLength(game, num, pesonFrom);
+    }
+    else if (twt.includes('abbreviations '))
+    {
+        var context = twt.replace('abbreviations ', '');
+        tweetAppreviations(context, personFrom);
     }
 }
 
@@ -381,7 +414,7 @@ function createGame(gameName, admin)
 
     fs.writeFileSync(saveDirectory + gameName + '.json', jsonSave);
 
-    tweet('You have created a game with name \'' + gameName + '\'. Tell your friends so they can join!', admin);
+    tweet('You have created a game with name \'' + gameName + '\'. Tell your friends so they can join!\nYou must set the turnLength and resetAt time before starting.', admin);
 }
 
 function isPlayerInGame(gameName, player)
@@ -482,9 +515,31 @@ function lockGame(gameName, commandFrom) //edit the lock state
     tweet('The game \'' + gameName + '\' has been locked. No more players may join it.', commandFrom);
 }
 
+function startGame(gameName, commandFrom)
+{
+    var error = null;
+
+    fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; });
+    if (error == null) { tweet('There is no game with name \'' + gameName + '\'.'); return; }
+
+    var save = JSON.parse(fs.readFileSync(saveDirectory + gameName + '.json'));
+
+    if (save.admin != commandFrom) { tweet('You do not have the authority to start game \'' + gameName + '\'. You are not the admin.', commandFrom); return; }
+
+    runningGames.push(gameName);
+
+    tweet('Game \'' + gameName + '\' has started. You are the admin.', commandFrom);
+    for (var i = 0; i < countries.length; i++)
+    {
+        for (var i2 = 0; i2 < save.countries[countries[i]].players.length; i2++)
+        {
+            tweet('Game \'' + gameName + '\' has started. You are playing as \'' + countries[i] + '\'.', save.countries[countries[i]].players[i]);
+        }
+    }
+}
+
 function deleteGame(gameName, commandFrom) //delete the save file
 {
-    //find out how to delete a json file
     var error = null;
 	
     fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; });
@@ -494,8 +549,71 @@ function deleteGame(gameName, commandFrom) //delete the save file
 	
     if (save.admin != commandFrom) { tweet('You do not have the authority to delete game \'' + gameName + '\'. You are not the admin.', commandFrom); return; }
 
+    runningGames.splice(runningGames.indexOf(gameName), 1);
+
     fs.unlinkSync(saveDirectory + gameName + '.json');	
     tweet('Game \'' + gameName + '\' has been deleted. Thank you for playing!', commandFrom);
+    for (var i = 0; i < countries.length; i++) {
+        for (var i2 = 0; i2 < save.countries[countries[i]].players.length; i2++) {
+            tweet('Game \'' + gameName + '\' has ended. Thank you for playing!', save.countries[countries[i]].players[i]);
+        }
+    }
+}
+
+function setResetAt(gameName, num, commandFrom)
+{
+    var error = null;
+
+    fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; });
+    if (error == null) { tweet('There is no game with name \'' + gameName + '\'.'); return; }
+
+    var save = JSON.parse(fs.readFileSync(saveDirectory + gameName + '.json'));
+
+    if (save.admin != commandFrom) { tweet('You do not have the authority to set resetAt in game \'' + gameName + '\'. You are not the admin.', commandFrom); return; }
+
+    var set = parseFloat(num.replace(/[^\d.]/g, ''));
+    
+    if (set == NaN || set == null) { console.log('Could not parse float: ' + num); tweet('There was a problem with your command. ' + num + ' is not a number, so resetAt cannot be set to it.', commandFrom); return;}
+
+    save.resetAt = set;
+
+    var jsonSave = JSON.stringify(save, null, 2);
+
+    fs.writeFileSync(saveDirectory + gameName + '.json', jsonSave);
+
+    tweet('resetAt of game \'' + gameName + '\' was successfully set to ' + num + '.', commandFrom)
+}
+
+function setTurnLength(gameName, num, commandFrom)
+{
+    var error = null;
+
+    fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; });
+    if (error == null) { tweet('There is no game with name \'' + gameName + '\'.'); return; }
+
+    var save = JSON.parse(fs.readFileSync(saveDirectory + gameName + '.json'));
+
+    if (save.admin != commandFrom) { tweet('You do not have the authority to set turnLength in game \'' + gameName + '\'. You are not the admin.', commandFrom); return; }
+
+    var set = parseFloat(num.replace(/[^\d.]/g, ''));
+
+    if (set == NaN || set == null) { console.log('Could not parse float: ' + num); tweet('There was a problem with your command. ' + num + ' is not a number, so turnLength cannot be set to it.', commandFrom); return; }
+
+    save.turnLength = set;
+
+    var jsonSave = JSON.stringify(save, null, 2);
+
+    fs.writeFileSync(saveDirectory + gameName + '.json', jsonSave);
+
+    tweet('turnLength of game \'' + gameName + '\' was successfully set to ' + num + '.', commandFrom)
+}
+
+function tweetAppreviations(province, commandFrom)
+{
+    var str = stringifyAppreviations(province);
+    if (str == null) { tweet('There is no province named \'' + province + '\'.', commandFrom); return; }
+
+    tweet(str, commandFrom);
 }
 
 function stringifyAppreviations(province)
@@ -514,24 +632,20 @@ function stringifyAppreviations(province)
     //test to see if exists
     if (arrayNum == undefined)
     {
-        return 'ERROR: No such province.';
+        //return 'ERROR: No such province.';
+        return null;
     }
 
     var string = '';
 
-    if (province != '')
+    string += 'Abbreviations for \'' + abbreviations[arrayNum][0] + '\':' + '\n';
+    for (var i = 1; i < abbreviations[arrayNum].length; i++)
     {
-        string += 'Abbreviations for \'' + abbreviations[arrayNum][0] + '\':' + '\n';
-        for (var i = 1; i < abbreviations[arrayNum].length; i++)
-        {
-            if (i != 1) string += '\n';
-            string += String(i) + ') ' + abbreviations[arrayNum][i];
-        }
-
-        return string;
+        if (i != 1) string += '\n';
+        string += String(i) + ') ' + abbreviations[arrayNum][i];
     }
 
-    string += ''
+    return string;
 }
 
 function dumpError(err) {
