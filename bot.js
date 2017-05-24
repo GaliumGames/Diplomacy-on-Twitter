@@ -57,7 +57,8 @@ var emptyGameSave = {
 
     },
     'resetAt': 24,
-    'turnLength': 12
+    'turnLength': 12,
+    'nextTurnEnd': 0
 };
 
 //this var is rather messy but it will be extremely useful when generating a picture of the current game map. 
@@ -254,14 +255,50 @@ function start()
 {
     console.log('The Diplomacy Bot has started');
 
-    run();
+    //run();
 }
 
 function run()
 {
     while (true)
     {
+        for (var i = 0; i < runningGames.length; i++) {
+            var error = null;
 
+            fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; });
+            if (error == null) { console.log('There was an error in \'run()\' - ' + runningGames[i] + ' is not a valid save.'); runningGames.slice(i); return; }
+
+            var save = JSON.parse(fs.readFileSync(saveDirectory + gameName + '.json'));
+
+            //if (time == save.nextTurnEnd)
+            //{
+            //do turn calcs and stuff
+            //save.nextTurnEnd += save.turnLength;
+            //save file
+            //}
+            //else if (time == save.nextTurnEnd - (1/60))
+            //{
+            //1 minute left
+            //}
+            //else if (time == save.nextTurnEnd - (5/60))
+            //{
+            //5 minutes left
+            //}
+            //else if (time == save.nextTurnEnd - (1/6))
+            //{
+            //10 minutes left
+            //}
+            //else if (time == save.nextTurnEnd - (1/2))
+            //{
+            //30 minute left
+            //}
+            //else if (time == save.nextTurnEnd - 1)
+            //{
+            //1 hour left
+            //}
+
+
+        }
     }
 }
 
@@ -538,6 +575,12 @@ function startGame(gameName, commandFrom)
             tweet('Game \'' + gameName + '\' has started. You are playing as \'' + countries[i] + '\'.', save.countries[countries[i]].players[i]);
         }
     }
+
+    save.nextTurnEnd = save.resetAt;
+
+    var jsonSave = JSON.stringify(save, null, 2);
+
+    fs.writeFileSync(saveDirectory + gameName + '.json', jsonSave);
 }
 
 function deleteGame(gameName, commandFrom) //delete the save file
