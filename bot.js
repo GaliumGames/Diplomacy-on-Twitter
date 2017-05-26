@@ -188,7 +188,7 @@ var abbreviations = [
 	['ruhr', 'ruh'],
 	['silesia', 'sil'],
 	
-	['apulia', 'apu'],
+	['apulia', 'apu', 'apl'],
     ['naples', 'nap'],
     ['piedmont', 'pie'],
     ['rome', 'rom'],
@@ -266,37 +266,39 @@ function run()
             var error = null;
 
             fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; });
-            if (error == null) { console.log('There was an error in \'run()\' - ' + runningGames[i] + ' is not a valid save.'); runningGames.slice(i); return; }
+            if (error == null) { console.log('There was an error in \'run()\' - ' + runningGames[i] + ' is not a valid save.'); runningGames.slice(i); }
+			else 
+			{
+				
+				var save = JSON.parse(fs.readFileSync(saveDirectory + gameName + '.json'));
 
-            var save = JSON.parse(fs.readFileSync(saveDirectory + gameName + '.json'));
-
-            //if (time == save.nextTurnEnd)
-            //{
-            //do turn calcs and stuff
-            //save.nextTurnEnd += save.turnLength;
-            //save file
-            //}
-            //else if (time == save.nextTurnEnd - (1/60))
-            //{
-            //1 minute left
-            //}
-            //else if (time == save.nextTurnEnd - (5/60))
-            //{
-            //5 minutes left
-            //}
-            //else if (time == save.nextTurnEnd - (1/6))
-            //{
-            //10 minutes left
-            //}
-            //else if (time == save.nextTurnEnd - (1/2))
-            //{
-            //30 minute left
-            //}
-            //else if (time == save.nextTurnEnd - 1)
-            //{
-            //1 hour left
-            //}
-
+				//if (time == save.nextTurnEnd)
+				//{
+				//do turn calcs and stuff
+				//save.nextTurnEnd += save.turnLength;
+				//save file
+				//}
+				//else if (time == save.nextTurnEnd - (1/60))
+				//{
+				//1 minute left
+				//}
+				//else if (time == save.nextTurnEnd - (5/60))
+				//{
+				//5 minutes left
+				//}
+				//else if (time == save.nextTurnEnd - (1/6))
+				//{
+				//10 minutes left
+				//}
+				//else if (time == save.nextTurnEnd - (1/2))
+				//{
+				//30 minute left
+				//}
+				//else if (time == save.nextTurnEnd - 1)
+				//{
+				//1 hour left
+				//}
+			}
 
         }
     }
@@ -693,7 +695,8 @@ function stringifyAppreviations(province)
     return string;
 }
 
-function dumpError(err) {
+function dumpError(err) 
+{
 	var json = JSON.stringify(err, null, 2);
 	fs.writeFile("err.json", json);
 }
