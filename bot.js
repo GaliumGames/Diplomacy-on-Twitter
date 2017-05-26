@@ -11,12 +11,13 @@ var stream = T.stream('user');
 stream.on('tweet', tweetEvent);
 
 var saveDirectory = __dirname + '/games/';
+var date = new Date();
 
 var emptyGameSave = {
     'locked': false,
     'admin': '',
     'countries': {
-        'AUSTRO-HUNGARIA': {
+        'AUSTRO-HUNGARY': {
             'players': [],
             'color': [0, 0, 0, 0],
             'provinces': ['bohemia', 'budapest', 'galicia', 'trieste', 'tyrelia', 'vienna']
@@ -58,7 +59,7 @@ var emptyGameSave = {
     },
     'resetAt': 24,
     'turnLength': 12,
-    'nextTurnEnd': 0
+    'countdown': 0
 };
 
 //this var is rather messy but it will be extremely useful when generating a picture of the current game map. 
@@ -150,7 +151,7 @@ var emptyGameSave = {
 };*/
 
 var countries = [
-    'AUSTRO-HUNGARIA',
+    'AUSTRO-HUNGARY',
     'GREAT BRITAIN',
     'FRANCE',
     'ITALY',
@@ -260,8 +261,15 @@ function start()
 
 function run()
 {
+    var timeChange = 0;
+    var lastTime = date.getHours() + (date.getMinutes() / 60);
+    
     while (true)
     {
+        timeChange = date.getHours() + (date.getMinutes() / 60) - lastTime;
+        if (timeChange < 0) { timeChange += 24; }
+        lastTime = date.getHours() + (date.getMinutes() / 60);
+
         for (var i = 0; i < runningGames.length; i++) {
             var error = null;
 
@@ -272,32 +280,36 @@ function run()
 				
 				var save = JSON.parse(fs.readFileSync(saveDirectory + gameName + '.json'));
 
-				//if (time == save.nextTurnEnd)
-				//{
-				//do turn calcs and stuff
-				//save.nextTurnEnd += save.turnLength;
-				//save file
-				//}
-				//else if (time == save.nextTurnEnd - (1/60))
-				//{
-				//1 minute left
-				//}
-				//else if (time == save.nextTurnEnd - (5/60))
-				//{
-				//5 minutes left
-				//}
-				//else if (time == save.nextTurnEnd - (1/6))
-				//{
-				//10 minutes left
-				//}
-				//else if (time == save.nextTurnEnd - (1/2))
-				//{
-				//30 minute left
-				//}
-				//else if (time == save.nextTurnEnd - 1)
-				//{
-				//1 hour left
-				//}
+				save.countdown -= timeChange;
+
+				if (save.countdown == 0)
+				{
+				    //do turn calcs and stuff
+				    save.countdown = save.turnLength;
+				}
+				else if (save.countdown == (1/60))
+				{
+				    tweetTimeWarnings(runningGames[i], save, '1 minute');
+				}
+				else if (save.countdown == (5/60))
+				{
+				    tweetTimeWarnings(runningGames[i], save, '5 minutes');
+				}
+				else if (save.countdown == (1/6))
+				{
+				    tweetTimeWarnings(runningGames[i], save, '10 minutes');
+				}
+				else if (save.countdown == (1/2))
+				{
+				    tweetTimeWarnings(runningGames[i], save, '30 minutes');
+				}
+				else if (save.countdown == 1)
+				{
+				    tweetTimeWarnings(runningGames[i], save, '1 hour');
+				}
+
+				var jsonSave = JSON.stringify(save, null, 2);
+				fs.writeFileSync(saveDirectory + gameName + '.json', jsonSave);
 			}
 
         }
@@ -494,7 +506,7 @@ function addPlayerToGame(gameName, player, country) //add a player to a country
 	
 	if (isPlayerInGame(gameName, player)) { tweet('You could not join game \'' + gameName + '\' becuase you are already in it.', player); return; }
 
-    if (save.countries[country] == undefined) { tweet('That is not a valid country!\nPlease join \'AUSTRO-HUNGARIA\', \'GREAT BRITAIN\', \'FRANCE\', \'ITALY\', \'GERMANY\', \'RUSSIA\', or \'OTTOMANS\'.', player); return; }
+    if (save.countries[country] == undefined) { tweet('That is not a valid country!\nPlease join \'AUSTRO-HUNGARY\', \'GREAT BRITAIN\', \'FRANCE\', \'ITALY\', \'GERMANY\', \'RUSSIA\', or \'OTTOMANS\'.', player); return; }
 
     save.countries[country].players.push(player);
 
@@ -646,6 +658,8 @@ function setTurnLength(gameName, num, commandFrom)
 
     if (set == NaN || set == null) { console.log('Could not parse float: ' + num); tweet('There was a problem with your command. ' + num + ' is not a number, so turnLength cannot be set to it.', commandFrom); return; }
 
+    if (set < (1 / 2)) { tweet('There was a problem with your command. ' + num + ' is too small a length of time, so turnLength cannot be set to it.', commandFrom); return; }
+
     save.turnLength = set;
 
     var jsonSave = JSON.stringify(save, null, 2);
@@ -661,6 +675,17 @@ function tweetAppreviations(province, commandFrom)
     if (str == null) { tweet('There is no province named \'' + province + '\'.', commandFrom); return; }
 
     tweet(str, commandFrom);
+}
+
+function tweetTimeWarnings(gameName, save, timeLeft)
+{
+    for (var c = 0; c < countries.length; c++)
+    {
+        for (var p = 0; p < save.countries[countries[c]].players.length; p++)
+        {
+            tweet('The next turn for game \'' + gameName + '\' ends in ' + timeLeft + '. Make sure to turn in your orders!', save.countries[countries[c]].players[p]);
+        }
+    }
 }
 
 function stringifyAppreviations(province)
