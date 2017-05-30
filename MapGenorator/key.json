@@ -1,0 +1,338 @@
+[
+  {
+    "name": "alb",
+    "red": 10,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "ank",
+    "red": 20,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "apu",
+    "red": 30,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "arm",
+    "red": 40,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "bel",
+    "red": 50,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "ber",
+    "red": 60,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "boh",
+    "red": 70,
+    "green": 10,
+    "blue" : 10
+  },
+  {
+    "name": "bre",
+    "red": 80,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "bud",
+    "red": 90,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "bul",
+    "red": 100,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "bur",
+    "red": 110,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "cly",
+    "red": 120,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "con",
+    "red": 130,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "den",
+    "red": 140,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "edi",
+    "red": 150,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "fin",
+    "red": 160,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "gal",
+    "red": 170,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "gas",
+    "red": 180,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "gre",
+    "red": 190,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "hol",
+    "red": 200,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "kie",
+    "red": 210,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "lvp",
+    "red": 220,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "lvn",
+    "red": 230,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "lon",
+    "red": 240,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "mar",
+    "red": 250,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "mos",
+    "red": 10,
+    "green": 20,
+    "blue": 10
+  },
+  {
+    "name": "mun",
+    "red": 10,
+    "green": 30,
+    "blue": 10
+  },
+  {
+    "name": "nap",
+    "red": 10,
+    "green": 40,
+    "blue": 10
+  },
+  {
+    "name": "naf",
+    "red": 10,
+    "green": 50,
+    "blue": 10
+  },
+  {
+    "name": "nwy",
+    "red": 10,
+    "green": 60,
+    "blue": 10
+  },
+  {
+    "name": "par",
+    "red": 10,
+    "green": 70,
+    "blue": 10
+  },
+  {
+    "name": "pic",
+    "red": 10,
+    "green": 80,
+    "blue": 10
+  },
+  {
+    "name": "pie",
+    "red": 10,
+    "green": 90,
+    "blue": 10
+  },
+  {
+    "name": "por",
+    "red": 10,
+    "green": 100,
+    "blue": 10
+  },
+  {
+    "name": "pru",
+    "red": 10,
+    "green": 110,
+    "blue": 10
+  },
+  {
+    "name": "rom",
+    "red": 10,
+    "green": 120,
+    "blue": 10
+  },
+  {
+    "name": "ruh",
+    "red": 10,
+    "green": 10,
+    "blue": 200
+  },
+  {
+    "name": "rum",
+    "red": 10,
+    "green": 130,
+    "blue": 10
+  },
+  {
+    "name": "ser",
+    "red": 10,
+    "green": 140,
+    "blue": 10
+  },
+  {
+    "name": "sev",
+    "red": 10,
+    "green": 150,
+    "blue": 10
+  },
+  {
+    "name": "sil",
+    "red": 10,
+    "green": 160,
+    "blue": 10
+  },
+  {
+    "name": "smy",
+    "red": 10,
+    "green": 170,
+    "blue": 10
+  },
+  {
+    "name": "spa",
+    "red": 10,
+    "green": 180,
+    "blue": 10
+  },
+  {
+    "name": "stp",
+    "red": 10,
+    "green": 190,
+    "blue": 10
+  },
+  {
+    "name": "swe",
+    "red": 10,
+    "green": 10,
+    "blue": 50
+  },
+  {
+    "name": "syr",
+    "red": 10,
+    "green": 10,
+    "blue": 60
+  },
+  {
+    "name": "tri",
+    "red": 10,
+    "green": 200,
+    "blue": 10
+  },
+  {
+    "name": "tun",
+    "red": 10,
+    "green": 210,
+    "blue": 10
+  },
+  {
+    "name": "tus",
+    "red": 10,
+    "green": 220,
+    "blue": 10
+  },
+  {
+    "name": "tyr",
+    "red": 10,
+    "green": 230,
+    "blue": 10
+  },
+  {
+    "name": "ukr",
+    "red": 10,
+    "green": 240,
+    "blue": 10
+  },
+  {
+    "name": "ven",
+    "red": 10,
+    "green": 250,
+    "blue": 10
+  },
+  {
+    "name": "vie",
+    "red": 10,
+    "green": 10,
+    "blue": 20
+  },
+  {
+    "name": "wal",
+    "red": 10,
+    "green": 10,
+    "blue": 30
+  },
+  {
+    "name": "war",
+    "red": 10,
+    "green": 10,
+    "blue": 100
+  },
+  {
+    "name" : "yor",
+    "red" : 10,
+    "green" : 10,
+    "blue" : 40
+  }
+]
