@@ -20,37 +20,51 @@ var emptyGameSave = {
         'AUSTRO-HUNGARY': {
             'players': [],
             'color': [0, 0, 0, 0],
-            'provinces': ['bohemia', 'budapest', 'galicia', 'trieste', 'tyrelia', 'vienna']
+            'provinces': ['bohemia', 'budapest', 'galicia', 'trieste', 'tyrelia', 'vienna'],
+            'armies': ['vienna', 'budapest'],
+            'fleets': ['tyrelia']
         },
         'GREAT BRITAIN': {
             'players': [],
             'color': [0, 0, 0, 0],
-            'provinces': ['clyde', 'edinburgh', 'liverpool', 'london', 'wales', 'yorkshire']
+            'provinces': ['clyde', 'edinburgh', 'liverpool', 'london', 'wales', 'yorkshire'],
+            'armies': ['liverpool'],
+            'fleets': ['edinburgh', 'london']
         },
         'FRANCE': {
             'players': [],
             'color': [0, 0, 0, 0],
-            'provinces': ['brest', 'burgundy', 'gascony', 'marseillas', 'paris', 'picardy']
+            'provinces': ['brest', 'burgundy', 'gascony', 'marseilles', 'paris', 'picardy'],
+            'armies': ['marseilles', 'paris'],
+            'fleets': ['brest']
         },
         'GERMANY': {
             'players': [],
             'color': [0, 0, 0, 0],
-            'provinces': ['berlin', 'kiel', 'munich', 'prussia', 'ruhr', 'silesia']
+            'provinces': ['berlin', 'kiel', 'munich', 'prussia', 'ruhr', 'silesia'],
+            'armies': ['berlin', 'munich'],
+            'fleets': ['kiel']
         },
         'ITALY': {
             'players': [],
             'color': [0, 0, 0, 0],
-            'provinces': ['apulia', 'naples', 'piedmont', 'rome', 'tuscany', 'venice']
+            'provinces': ['apulia', 'naples', 'piedmont', 'rome', 'tuscany', 'venice'],
+            'armies': ['venice', 'rome'],
+            'fleets': ['naples']
         },
         'RUSSIA': {
             'players': [],
             'color': [0, 0, 0, 0],
-            'provinces': ['livonia', 'moscow', 'sevastapol', 'st petersburg', 'ukraine', 'warsaw']
+            'provinces': ['livonia', 'moscow', 'sevastopol', 'st petersburg', 'ukraine', 'warsaw'],
+            'armies': ['warsaw', 'moscow'],
+            'fleets': ['sevastopol', 'st petersburg']
         },
         'OTTOMANS': {
             'players': [],
             'color': [0, 0, 0, 0],
-            'provinces': ['ankara', 'armenia', 'constantinople', 'smyrna', 'syria']
+            'provinces': ['ankara', 'armenia', 'constantinople', 'smyrna', 'syria'],
+            'armies': ['constantinople', 'smyrna'],
+            'fleets': ['ankara']
         },
         'NEUTRAL': {
             'provinces': ['albania', 'belgium', 'bulgaria', 'finland', 'greece', 'holland', 'norway', 'north africa', 'portugal', 'rumania', 'serbia', 'spain', 'sweden', 'tunis']
@@ -103,7 +117,7 @@ var emptyGameSave = {
 
     'livonia': { 'color': [0, 0, 0, 0], 'centerPos': [0, 0] },
     'moscow': { 'color': [0, 0, 0, 0], 'centerPos': [0, 0] },
-    'sevastapol': { 'color': [0, 0, 0, 0], 'centerPos': [0, 0] },
+    'sevastopol': { 'color': [0, 0, 0, 0], 'centerPos': [0, 0] },
     'st petersburg': { 'color': [0, 0, 0, 0], 'centerPos': [0, 0] },
     'ukraine': { 'color': [0, 0, 0, 0], 'centerPos': [0, 0] },
     'warsaw': { 'color': [0, 0, 0, 0], 'centerPos': [0, 0] },
@@ -178,7 +192,7 @@ var abbreviations = [
 	['brest', 'bre'],
 	['burgundy', 'bur'],
 	['gascony', 'gas']
-	['marseillas', 'mar'],
+	['marseilles', 'mar'],
 	['paris', 'par'],
 	['picardy', 'pic'],
 	
@@ -198,7 +212,7 @@ var abbreviations = [
 	
 	['livonia', 'liv'],
     ['moscow', 'mos'],
-    ['sevastapol', 'sev'],
+    ['sevastopol', 'sev'],
     ['st petersburg', 'stp'],
     ['ukraine', 'ukr'],
     ['warsaw', 'war'],
