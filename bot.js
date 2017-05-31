@@ -16,6 +16,8 @@ stream.on('unfollow', unfollowEvent);
 var saveDirectory = __dirname + '/games/';
 var date = new Date();
 
+//https://medium.com/towards-data-science/making-a-replier-and-follow-bot-for-twitter-using-node-js-23e0ba8e4e4f
+
 var emptyGameSave = {
     'locked': false,
     'admin': '',
@@ -372,19 +374,19 @@ function directMessageEvent(directMsg)
     fs.writeFile("dmtest.json", json);
 }
 
-function followEvent(follow)
+function followEvent(eventMessage)
 {
     console.log('Followed.');
 
-    var json = JSON.stringify(follow, null, 2);
+    var json = JSON.stringify(eventMessage, null, 2);
     fs.writeFile("ftest.json", json);
 }
 
-function unfollowEvent(unfollow)
+function unfollowEvent(eventMessage)
 {
     console.log('Unfollowed.');
 
-    var json = JSON.stringify(unfollow, null, 2);
+    var json = JSON.stringify(eventMessage, null, 2);
     fs.writeFile("uftest.json", json);
 }
 
