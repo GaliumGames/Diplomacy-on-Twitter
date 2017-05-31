@@ -7,11 +7,12 @@ var Twit = require('twit');
 var config = require('./config');
 var T = new Twit(config);
 var stream = T.stream('user');
+var stream2 = T.stream('public');
 
 stream.on('tweet', tweetEvent);
-stream.on('direct_message', directMessageEvent);
+stream2.on('direct_message', directMessageEvent);
 stream.on('follow', followEvent);
-stream.on('unfollow', unfollowEvent);
+stream2.on('unfollow', unfollowEvent);
 
 var saveDirectory = __dirname + '/games/';
 var date = new Date();
@@ -377,6 +378,8 @@ function directMessageEvent(directMsg)
 function followEvent(eventMessage)
 {
     console.log('Followed.');
+
+    tweet('Thank you for following me!', eventMessage.source.screen_name);
 
     var json = JSON.stringify(eventMessage, null, 2);
     fs.writeFile("ftest.json", json);
