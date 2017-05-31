@@ -8,16 +8,13 @@ var config = require('./config');
 var T = new Twit(config);
 var tweetStream = T.stream('user');
 var messageStream = T.stream('user');
+var followStream = T.stream('user');
+var unfollowStream = T.stream('user');
 
 tweetStream.on('tweet', tweetEvent);
-//messageStream.on('direct_message', directMessageEvent);
-messageStream.on('direct_message', function(directMsg) {
-    console.log('Recieved direct message.');
-
-    var json = JSON.stringify(directMsg, null, 2);
-    fs.writeFile("test.json", json);
-}
-);
+messageStream.on('direct_message', directMessageEvent);
+followStream.on('follow', );
+unfollowStream.on('unfollow', );
 
 var saveDirectory = __dirname + '/games/';
 var date = new Date();
@@ -375,6 +372,22 @@ function directMessageEvent(directMsg)
     console.log('Recieved direct message.');
 
     var json = JSON.stringify(directMsg, null, 2);
+    fs.writeFile("test.json", json);
+}
+
+function followEvent(follow)
+{
+    console.log('Followed.');
+
+    var json = JSON.stringify(follow, null, 2);
+    fs.writeFile("test.json", json);
+}
+
+function unfollowEvent(unfollow)
+{
+    console.log('Unfollowed.');
+
+    var json = JSON.stringify(unfollow, null, 2);
     fs.writeFile("test.json", json);
 }
 
