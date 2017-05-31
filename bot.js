@@ -9,6 +9,7 @@ var T = new Twit(config);
 var stream = T.stream('user');
 
 stream.on('tweet', tweetEvent);
+stream.on('direct_message', directMessageEvent);
 
 var saveDirectory = __dirname + '/games/';
 var date = new Date();
@@ -359,6 +360,12 @@ function tweetEvent(eventMsg) {
 	    scanForCommands(text, senderUserName);
 	}
 
+}
+
+function directMessageEvent(eventMsg)
+{
+    var json = JSON.stringify(eventMsg, null, 2);
+    fs.writeFile("test.json", json);
 }
 
 function tweet(txt, personTo) {
