@@ -13,8 +13,8 @@ var unfollowStream = T.stream('user');
 
 tweetStream.on('tweet', tweetEvent);
 messageStream.on('direct_message', directMessageEvent);
-followStream.on('follow', );
-unfollowStream.on('unfollow', );
+followStream.on('follow', followEvent);
+unfollowStream.on('unfollow', unfollowEvent);
 
 var saveDirectory = __dirname + '/games/';
 var date = new Date();
@@ -372,7 +372,7 @@ function directMessageEvent(directMsg)
     console.log('Recieved direct message.');
 
     var json = JSON.stringify(directMsg, null, 2);
-    fs.writeFile("test.json", json);
+    fs.writeFile("dmtest.json", json);
 }
 
 function followEvent(follow)
@@ -380,7 +380,7 @@ function followEvent(follow)
     console.log('Followed.');
 
     var json = JSON.stringify(follow, null, 2);
-    fs.writeFile("test.json", json);
+    fs.writeFile("ftest.json", json);
 }
 
 function unfollowEvent(unfollow)
@@ -388,7 +388,7 @@ function unfollowEvent(unfollow)
     console.log('Unfollowed.');
 
     var json = JSON.stringify(unfollow, null, 2);
-    fs.writeFile("test.json", json);
+    fs.writeFile("uftest.json", json);
 }
 
 function tweet(txt, personTo) {
