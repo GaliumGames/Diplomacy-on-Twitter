@@ -6,15 +6,12 @@ var Twit = require('twit');
 
 var config = require('./config');
 var T = new Twit(config);
-var tweetStream = T.stream('user');
-var messageStream = T.stream('user');
-var followStream = T.stream('user');
-var unfollowStream = T.stream('user');
+var stream = T.stream('user');
 
-tweetStream.on('tweet', tweetEvent);
-messageStream.on('direct_message', directMessageEvent);
-followStream.on('follow', followEvent);
-unfollowStream.on('unfollow', unfollowEvent);
+stream.on('tweet', tweetEvent);
+stream.on('direct_message', directMessageEvent);
+stream.on('follow', followEvent);
+stream.on('unfollow', unfollowEvent);
 
 var saveDirectory = __dirname + '/games/';
 var date = new Date();
