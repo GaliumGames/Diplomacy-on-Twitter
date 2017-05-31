@@ -10,7 +10,14 @@ var tweetStream = T.stream('user');
 var messageStream = T.stream('user');
 
 tweetStream.on('tweet', tweetEvent);
-messageStream.on('direct_message', directMessageEvent);
+//messageStream.on('direct_message', directMessageEvent);
+messageStream.on('direct_message', function(directMsg) {
+    console.log('Recieved direct message.');
+
+    var json = JSON.stringify(directMsg, null, 2);
+    fs.writeFile("test.json", json);
+}
+);
 
 var saveDirectory = __dirname + '/games/';
 var date = new Date();
@@ -363,11 +370,11 @@ function tweetEvent(eventMsg) {
 
 }
 
-function directMessageEvent(eventMsg)
+function directMessageEvent(directMsg)
 {
     console.log('Recieved direct message.');
 
-    var json = JSON.stringify(eventMsg, null, 2);
+    var json = JSON.stringify(directMsg, null, 2);
     fs.writeFile("test.json", json);
 }
 
