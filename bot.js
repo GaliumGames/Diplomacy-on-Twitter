@@ -27,49 +27,56 @@ var emptyGameSave = {
             'color': [0, 0, 0, 0],
             'provinces': ['bohemia', 'budapest', 'galicia', 'trieste', 'tyrelia', 'vienna'],
             'armies': ['vienna', 'budapest'],
-            'fleets': ['tyrelia']
+            'fleets': ['tyrelia'],
+            'orders': []
         },
         'GREAT BRITAIN': {
             'players': [],
             'color': [0, 0, 0, 0],
             'provinces': ['clyde', 'edinburgh', 'liverpool', 'london', 'wales', 'yorkshire'],
             'armies': ['liverpool'],
-            'fleets': ['edinburgh', 'london']
+            'fleets': ['edinburgh', 'london'],
+            'orders': []
         },
         'FRANCE': {
             'players': [],
             'color': [0, 0, 0, 0],
             'provinces': ['brest', 'burgundy', 'gascony', 'marseilles', 'paris', 'picardy'],
             'armies': ['marseilles', 'paris'],
-            'fleets': ['brest']
+            'fleets': ['brest'],
+            'orders': []
         },
         'GERMANY': {
             'players': [],
             'color': [0, 0, 0, 0],
             'provinces': ['berlin', 'kiel', 'munich', 'prussia', 'ruhr', 'silesia'],
             'armies': ['berlin', 'munich'],
-            'fleets': ['kiel']
+            'fleets': ['kiel'],
+            'orders': []
         },
         'ITALY': {
             'players': [],
             'color': [0, 0, 0, 0],
             'provinces': ['apulia', 'naples', 'piedmont', 'rome', 'tuscany', 'venice'],
             'armies': ['venice', 'rome'],
-            'fleets': ['naples']
+            'fleets': ['naples'],
+            'orders': []
         },
         'RUSSIA': {
             'players': [],
             'color': [0, 0, 0, 0],
             'provinces': ['livonia', 'moscow', 'sevastopol', 'st petersburg', 'ukraine', 'warsaw'],
             'armies': ['warsaw', 'moscow'],
-            'fleets': ['sevastopol', 'st petersburg']
+            'fleets': ['sevastopol', 'st petersburg'],
+            'orders': []
         },
         'OTTOMANS': {
             'players': [],
             'color': [0, 0, 0, 0],
             'provinces': ['ankara', 'armenia', 'constantinople', 'smyrna', 'syria'],
             'armies': ['constantinople', 'smyrna'],
-            'fleets': ['ankara']
+            'fleets': ['ankara'],
+            'orders': []
         },
         'NEUTRAL': {
             'provinces': ['albania', 'belgium', 'bulgaria', 'finland', 'greece', 'holland', 'norway', 'north africa', 'portugal', 'rumania', 'serbia', 'spain', 'sweden', 'tunis']
@@ -79,6 +86,12 @@ var emptyGameSave = {
     'resetAt': 24,
     'turnLength': 12,
     'countdown': 0
+};
+
+var emptyOrderFormat = {                 
+    'province': '',
+    'order': '',
+    'affect': ''                 
 };
 
 //this var is rather messy but it will be extremely useful when generating a picture of the current game map. 
