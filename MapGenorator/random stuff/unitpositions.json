@@ -1,0 +1,377 @@
+[
+  {
+    "name": "adriatic sea",
+    "x": 953,
+    "y": 1423
+  },
+  {
+    "name": "aegean sea",
+    "x": 1311,
+    "y": 1720
+  },
+  {
+    "name": "albania",
+    "x": 1105,
+    "y": 1538
+  },
+  {
+    "name": "ankara",
+    "x": 1591,
+    "y": 1508
+  },
+  {
+    "name": "apulia",
+    "x": 983,
+    "y": 1550
+  },
+  {
+    "name": "armenia",
+    "x": 1858,
+    "y": 1483
+  },
+  {
+    "name": "baltic sea",
+    "x": 1068,
+    "y": 779
+  },
+  {
+    "name": "barents sea",
+    "x": 1348,
+    "y": 74
+  },
+  {
+    "name": "belgium",
+    "x": 613,
+    "y": 1006
+  },
+  {
+    "name": "berlin",
+    "x": 880,
+    "y": 975
+  },
+  {
+    "name": "black sea",
+    "x": 1500,
+    "y": 1376
+  },
+  {
+    "name": "bohemia",
+    "x": 947,
+    "y": 1079
+  },
+  {
+    "name": "brest",
+    "x": 400,
+    "y": 1079
+  },
+  {
+    "name": "budapest",
+    "x": 1135,
+    "y": 1200
+  },
+  {
+    "name": "bulgaria",
+    "x":,
+    "y":
+  },
+  {
+    "name": "burgundy",
+    "x":,
+    "y":
+  },
+  {
+    "name": "clyde",
+    "x":,
+    "y":
+  },
+  {
+    "name": "constantinople",
+    "x":,
+    "y":
+  },
+  {
+    "name": "denmark",
+    "x":,
+    "y":
+  },
+  {
+    "name": "eastern mediterranean",
+    "x":,
+    "y":
+  },
+  {
+    "name": "edinburgh",
+    "x":,
+    "y":
+  },
+  {
+    "name": "english channel",
+    "x":,
+    "y":
+  },
+  {
+    "name": "finland",
+    "x":,
+    "y":
+  },
+  {
+    "name": "galicia",
+    "x":,
+    "y":
+  },
+  {
+    "name": "gascony",
+    "x":,
+    "y":
+  },
+  {
+    "name": "greece",
+    "x":,
+    "y":
+  },
+  {
+    "name": "gulf of lyon",
+    "x":,
+    "y":
+  },
+  {
+    "name": "gulf of bothnia",
+    "x":,
+    "y":
+  },
+  {
+    "name": "helgoland bight",
+    "x":,
+    "y":
+  },
+  {
+    "name": "holland",
+    "x":,
+    "y":
+  },
+  {
+    "name": "ionian sea",
+    "x":,
+    "y":
+  },
+  {
+    "name": "irish sea",
+    "x":,
+    "y":
+  },
+  {
+    "name": "kiel",
+    "x":,
+    "y":
+  },
+  {
+    "name": "liverpool",
+    "x":,
+    "y":
+  },
+  {
+    "name": "livonia",
+    "x":,
+    "y":
+  },
+  {
+    "name": "london",
+    "x":,
+    "y":
+  },
+  {
+    "name": "marseilles",
+    "x":,
+    "y":
+  },
+  {
+    "name": "mid-atlantic ocean",
+    "x":,
+    "y":
+  },
+  {
+    "name": "moscow",
+    "x":,
+    "y":
+  },
+  {
+    "name": "munich",
+    "x":,
+    "y":
+  },
+  {
+    "name": "naples",
+    "x":,
+    "y":
+  },
+  {
+    "name": "north atlantic ocean",
+    "x":,
+    "y":
+  },
+  {
+    "name": "north africa",
+    "x":,
+    "y":
+  },
+  {
+    "name": "north sea",
+    "x":,
+    "y":
+  },
+  {
+    "name": "norway",
+    "x":,
+    "y":
+  },
+  {
+    "name": "norwegian sea",
+    "x":,
+    "y":
+  },
+  {
+    "name": "paris",
+    "x":,
+    "y":
+  },
+  {
+    "name": "picardy",
+    "x":,
+    "y":
+  },
+  {
+    "name": "piedmont",
+    "x":,
+    "y":
+  },
+  {
+    "name": "portugal",
+    "x":,
+    "y":
+  },
+  {
+    "name": "prussia",
+    "x":,
+    "y":
+  },
+  {
+    "name": "rome",
+    "x":,
+    "y":
+  },
+  {
+    "name": "ruhr",
+    "x":,
+    "y":
+  },
+  {
+    "name": "rumania",
+    "x":,
+    "y":
+  },
+  {
+    "name": "serbia",
+    "x":,
+    "y":
+  },
+  {
+    "name": "sevastopol",
+    "x":,
+    "y":
+  },
+  {
+    "name": "silesia",
+    "x":,
+    "y":
+  },
+  {
+    "name": "skagerrak",
+    "x":,
+    "y":
+  },
+  {
+    "name": "smyrna",
+    "x":,
+    "y":
+  },
+  {
+    "name": "spain",
+    "x":,
+    "y":
+  },
+  {
+    "name": "st petersburg",
+    "x":,
+    "y":
+  },
+  {
+    "name": "sweden",
+    "x":,
+    "y":
+  },
+  {
+    "name": "syria",
+    "x":,
+    "y":
+  },
+  {
+    "name": "trieste",
+    "x":,
+    "y":
+  },
+  {
+    "name": "tunis",
+    "x":,
+    "y":
+  },
+  {
+    "name": "tuscany",
+    "x":,
+    "y":
+  },
+  {
+    "name": "tyrolia",
+    "x":,
+    "y":
+  },
+  {
+    "name": "tyrrhenian sea",
+    "x":,
+    "y":
+  },
+  {
+    "name": "ukraine",
+    "x":,
+    "y":
+  },
+  {
+    "name": "venice",
+    "x":,
+    "y":
+  },
+  {
+    "name": "vienna",
+    "x":,
+    "y":
+  },
+  {
+    "name": "wales",
+    "x":,
+    "y":
+  },
+  {
+    "name": "warsaw",
+    "x":,
+    "y":
+  },
+  {
+    "name": "western mediterranean",
+    "x":,
+    "y":
+  },
+  {
+    "name": "yorkshire",
+    "x":,
+    "y":
+  }
+]
