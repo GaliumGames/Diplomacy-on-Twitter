@@ -281,6 +281,10 @@ var endTweetChars = ['.', ',', '?'];
 
 var runningGames = [];
 
+var selectedGames = [
+
+]
+
 start();
 
 
@@ -381,10 +385,21 @@ function tweetEvent(eventMsg) {
 
 function directMessageEvent(directMsg)
 {
-    console.log('Recieved direct message.');
+    var text = directMsg.text;
+    var from = directMsg.sender.screen_name;
 
-    var json = JSON.stringify(directMsg, null, 2);
-    fs.writeFile("dmtest.json", json);
+    //console.log('Recieved direct message.');
+
+    //var json = JSON.stringify(directMsg, null, 2);
+    //fs.writeFile("dmtest.json", json);
+
+    console.log('Recived direct message from ' + from + ': \'' + text + '\'.');
+
+    for (var i = 0; i < endTweetChars.length; i++) {
+        text = text.split(endTweetChars[i])[0];
+    }
+
+    scanForOrders(text, from);
 }
 
 function followEvent(eventMessage)
@@ -429,6 +444,30 @@ function tweet(txt, personTo) {
 			console.log('Sent tweet: \'' + txt + '\'');		
 		}
 	}
+}
+
+function directMessage(txt, personTo)
+{
+    if (personTo == '') {
+        return;
+    }
+
+    var message = {
+        screen_name: personTo,
+        text: txt
+    }
+
+    T.post('direct_messages/new', message, messaged);
+
+    function messaged(err, data, response) {
+        if (err) {
+            console.log('Somthing went wrong when trying to tweet! Dumping to err file.');
+            dumpError(err);
+        }
+        else {
+            console.log('Sent direct message to ' + personTo + ': \'' + txt + '\'.');
+        }
+    }
 }
 
 function scanForCommands(twt, personFrom)
@@ -509,6 +548,19 @@ function scanForCommands(twt, personFrom)
     {
         var context = twt.replace('abbreviations ', '');
         tweetAppreviations(context, personFrom);
+    }
+}
+
+function scanForOrders(twt, personFrom)
+{
+    //twt = twt.replace('start game ', 'create game ');
+
+
+    if (twt.includes('select game ')) //create game
+    {
+        var context = twt.replace('select game ', '');
+
+        selectGame(context, personFrom);
     }
 }
 
@@ -725,6 +777,27 @@ function setTurnLength(gameName, num, commandFrom)
     fs.writeFileSync(saveDirectory + gameName + '.json', jsonSave);
 
     tweet('turnLength of game \'' + gameName + '\' was successfully set to ' + num + '.', commandFrom)
+}
+
+function selectGame(gameName, commandFrom)
+{
+    var error = null;
+    fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; });
+    if (error == null) { directMessage('There is no game with name \'' + gameName + '\'.', commandFrom); return; }
+
+    var alreadySet = false;
+    for (var i = 0; i < selectedGames.length; i++) {
+        if (selectedGames[i][0] == commandFrom) {
+            selectedGames[i][1] = gameName;
+            alreadySet = true;
+            break;
+        }
+    }
+    if (!alreadySet) {
+        selectedGames.push([commandFrom, gameName]);
+    }
+
+    directMessage('You can now enter orders for game \'' + gameName + '\'.', commandFrom);
 }
 
 function tweetAppreviations(province, commandFrom)
