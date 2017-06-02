@@ -385,8 +385,8 @@ function tweetEvent(eventMsg) {
 
 function directMessageEvent(directMsg)
 {
-    var text = directMsg.text;
-    var from = directMsg.sender.screen_name;
+    var text = directMsg.direct_message.text;
+    var from = directMsg.direct_message.sender.screen_name;
 
     //console.log('Recieved direct message.');
 
