@@ -376,7 +376,7 @@ function tweetEvent(eventMsg) {
 	        text = text.split(endTweetChars[i])[0];
 	    }
 
-	    console.log('Recieved tweet: ' + eventMsg.text);
+	    console.log('Translated tweet: ' + text);
 
 	    scanForCommands(text, senderUserName);
 	}
@@ -428,7 +428,7 @@ function tweet(txt, personTo) {
 	
     if (personTo != '')
     {
-        txt = '@' + personTo + ' ' + txt + ' [' + String(Math.floor(Math.random() * 1000)) + ']';
+        txt = '@' + personTo + ' ' + txt + ' [' + String(Math.floor(Math.random() * 10000)) + ']';
     }
 
 	var tweet = {
@@ -439,7 +439,7 @@ function tweet(txt, personTo) {
 	
 	function tweeted(err, data, response) {
 		if (err) {
-			console.log('Somthing went wrong when trying to tweet! Dumping to err file.');
+			console.log('Somthing went wrong when trying to tweet!');
 			dumpError(err);
 		}
 		else{
@@ -463,7 +463,7 @@ function directMessage(txt, personTo)
 
     function messaged(err, data, response) {
         if (err) {
-            console.log('Somthing went wrong when trying to tweet! Dumping to err file.');
+            console.log('Somthing went wrong when trying to direct message! Dumping to err file.');
             dumpError(err);
         }
         else {
@@ -570,8 +570,8 @@ function createGame(gameName, admin)
 {
     var error = null;
 
-    fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; }); // returns null if it doesn't exist
-    if (error != null) { tweet('There is already a game with the name \'' + gameName + '\'. Please choose another name for your game.', admin); return; }
+    fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; }); // returns null if it exists
+    if (error == null) { tweet('There is already a game with the name \'' + gameName + '\'. Please choose another name for your game.', admin); return; }
 
     var save = emptyGameSave;
     save.admin = admin;
@@ -579,15 +579,16 @@ function createGame(gameName, admin)
 
     fs.writeFileSync(saveDirectory + gameName + '.json', jsonSave);
 
-    tweet('You have created a game with name \'' + gameName + '\'. Tell your friends so they can join!\nYou must set the turnLength and resetAt time before starting.', admin);
+    tweet('You have created a game with name \'' + gameName + '\'. Tell your friends so they can join!', admin);
+    tweet('You must set the turnLength and resetAt time before starting.', admin);
 }
 
 function isPlayerInGame(gameName, player)
 {
 	var error = null;
 
-    fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; });
-    if (error == null) { tweet('There is no game with name \'' + gameName + '\'.', player); return; }
+	fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; }); // returns null if it exists
+    if (error != null) { tweet('There is no game with name \'' + gameName + '\'.', player); return; }
 
     var save = JSON.parse(fs.readFileSync(saveDirectory + gameName + '.json'));
 	
@@ -609,8 +610,8 @@ function addPlayerToGame(gameName, player, country) //add a player to a country
 {
     var error = null;
 
-    fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; });
-    if (error == null) { tweet('There is no game with name \'' + gameName + '\'.', player); return; }
+    fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; }); // returns null if it exists
+    if (error != null) { tweet('There is no game with name \'' + gameName + '\'.', player); return; }
 
     var save = JSON.parse(fs.readFileSync(saveDirectory + gameName + '.json'));
 
@@ -633,8 +634,8 @@ function removePlayerFromGame(gameName, player)
 {
     var error = null;
 
-    fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; });
-    if (error == null) { tweet('There is no game with name \'' + gameName + '\'.', player); return; }
+    fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; }); // returns null if it exists
+    if (error != null) { tweet('There is no game with name \'' + gameName + '\'.', player); return; }
 
     var save = JSON.parse(fs.readFileSync(saveDirectory + gameName + '.json'));
 	
@@ -664,8 +665,8 @@ function lockGame(gameName, commandFrom) //edit the lock state
 {
     var error = null;
 
-    fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; });
-    if (error == null) { tweet('There is no game with name \'' + gameName + '\'.', commandFrom); return; }
+    fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; }); // returns null if it exists
+    if (error != null) { tweet('There is no game with name \'' + gameName + '\'.', commandFrom); return; }
 
     var save = JSON.parse(fs.readFileSync(saveDirectory + gameName + '.json'));
 
@@ -684,8 +685,8 @@ function startGame(gameName, commandFrom)
 {
     var error = null;
 
-    fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; });
-    if (error == null) { tweet('There is no game with name \'' + gameName + '\'.'); return; }
+    fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; }); // returns null if it exists
+    if (error != null) { tweet('There is no game with name \'' + gameName + '\'.', commandFrom); return; }
 
     var save = JSON.parse(fs.readFileSync(saveDirectory + gameName + '.json'));
 
@@ -713,8 +714,8 @@ function deleteGame(gameName, commandFrom) //delete the save file
 {
     var error = null;
 	
-    fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; });
-    if (error == null) { tweet('There is no game with name \'' + gameName + '\'.'); return; }
+    fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; }); // returns null if it exists
+    if (error != null) { tweet('There is no game with name \'' + gameName + '\'.', commandFrom); return; }
 	
     var save = JSON.parse(fs.readFileSync(saveDirectory + gameName + '.json'));
 	
@@ -735,8 +736,8 @@ function setResetAt(gameName, num, commandFrom)
 {
     var error = null;
 
-    fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; });
-    if (error == null) { tweet('There is no game with name \'' + gameName + '\'.'); return; }
+    fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; }); // returns null if it exists
+    if (error != null) { tweet('There is no game with name \'' + gameName + '\'.', commandFrom); return; }
 
     var save = JSON.parse(fs.readFileSync(saveDirectory + gameName + '.json'));
 
@@ -759,8 +760,8 @@ function setTurnLength(gameName, num, commandFrom)
 {
     var error = null;
 
-    fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; });
-    if (error == null) { tweet('There is no game with name \'' + gameName + '\'.'); return; }
+    fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; }); // returns null if it exists
+    if (error != null) { tweet('There is no game with name \'' + gameName + '\'.', commandFrom); return; }
 
     var save = JSON.parse(fs.readFileSync(saveDirectory + gameName + '.json'));
 
@@ -784,8 +785,8 @@ function setTurnLength(gameName, num, commandFrom)
 function selectGame(gameName, commandFrom)
 {
     var error = null;
-    fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; });
-    if (error == null) { directMessage('There is no game with name \'' + gameName + '\'.', commandFrom); console.log(saveDirectory + gameName + '.json does not exist.'); return; }
+    fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; }); // returns null if it exists
+    if (error != null) { directMessage('There is no game with name \'' + gameName + '\'.', commandFrom); console.log(saveDirectory + gameName + '.json does not exist.'); return; }
 
     var alreadySet = false;
     for (var i = 0; i < selectedGames.length; i++) {
@@ -856,5 +857,6 @@ function stringifyAppreviations(province)
 function dumpError(err) 
 {
 	var json = JSON.stringify(err, null, 2);
-	fs.writeFile("err.json", json);
+	fs.writeFileSync(__dirname + '\\err.json', json);
+	console.log('Dumped error in ' + __dirname + '\\err.json');
 }
