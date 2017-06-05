@@ -393,6 +393,8 @@ function directMessageEvent(directMsg)
     //var json = JSON.stringify(directMsg, null, 2);
     //fs.writeFile("dmtest.json", json);
 
+    if (from == 'JohnLockeBot') { return; }
+
     console.log('Recived direct message from ' + from + ': \'' + text + '\'.');
 
     for (var i = 0; i < endTweetChars.length; i++) {
