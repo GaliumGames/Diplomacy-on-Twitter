@@ -13,7 +13,7 @@ stream.on('direct_message', directMessageEvent);
 stream.on('follow', followEvent);
 stream.on('unfollow', unfollowEvent);
 
-var saveDirectory = __dirname + '/games/';
+var saveDirectory = __dirname + '\\games\\';
 var date = new Date();
 
 //https://medium.com/towards-data-science/making-a-replier-and-follow-bot-for-twitter-using-node-js-23e0ba8e4e4f
