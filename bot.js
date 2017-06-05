@@ -785,7 +785,7 @@ function selectGame(gameName, commandFrom)
 {
     var error = null;
     fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; });
-    if (error == null) { directMessage('There is no game with name \'' + gameName + '\'.', commandFrom); return; }
+    if (error == null) { directMessage('There is no game with name \'' + gameName + '\'.', commandFrom); console.log(saveDirectory + gameName + '.json does not exist.'); return; }
 
     var alreadySet = false;
     for (var i = 0; i < selectedGames.length; i++) {
