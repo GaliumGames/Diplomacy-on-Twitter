@@ -381,7 +381,7 @@ function tweetEvent(eventMsg) {
 
 	    console.log('Translated tweet: ' + text);
 
-	    scanTweet(text, senderUserName);
+	    //scanTweet(text, senderUserName);
 	}
 
 }
@@ -400,9 +400,9 @@ function directMessageEvent(directMsg)
 
     console.log('Recived direct message from ' + from + ': \'' + text + '\'.');
 
-    for (var i = 0; i < endTweetChars.length; i++) {
-        text = text.split(endTweetChars[i])[0];
-    }
+    //for (var i = 0; i < endTweetChars.length; i++) {
+    //    text = text.split(endTweetChars[i])[0];
+    //}
 
     scanDirectMessage(text, from);
 }
@@ -477,9 +477,7 @@ function directMessage(txt, personTo)
 
 function scanTweet(twt, personFrom)
 {
-
-
-    tweet('Command not recognized.', personFrom);
+    //tweet('Command not recognized.', personFrom);
 }
 
 function scanDirectMessage(twt, personFrom)
@@ -525,7 +523,7 @@ function scanDirectMessage(twt, personFrom)
 
         var split = context.split(' ');
         gameName = split[0];
-        country = split[1];
+        country = context.replace(gameName, '');
 
         addPlayerToGame(gameName, personFrom, country);
         return;
@@ -606,8 +604,7 @@ function createGame(gameName, admin)
 
     fs.writeFileSync(saveDirectory + gameName + '.json', jsonSave);
 
-    directMessage('You have created a game with name \'' + gameName + '\'. Tell your friends so they can join!', admin);
-    directMessage('You must set the turnLength and resetAt time before starting.', admin);
+    directMessage('You have created a game with name \'' + gameName + '\'. Tell your friends so they can join!\nYou must set the turnLength and resetAt time before starting.', admin);
 }
 
 function isPlayerInGame(gameName, player)
