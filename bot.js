@@ -308,7 +308,7 @@ function run()
         if (timeChange < 0) { timeChange += 24; }
         lastTime = date.getHours() + (date.getMinutes() / 60);
 
-        console.log('\tupdate... timeChange = ' + timeChange);
+        console.log('\tupdate... timeChange = ' + timeChange + ', time = ' + date);
 
         for (var i = 0; i < runningGames.length; i++) {
             console.log('\t\tupdating game ' + runningGames[i]);
