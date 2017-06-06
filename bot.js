@@ -306,16 +306,18 @@ function run()
         if (timeChange < 0) { timeChange += 24; }
         lastTime = date.getHours() + (date.getMinutes() / 60);
 
-        for (var i = 0; i < runningGames.length; i++) {
-            var error = null;
+        console.log('\tupdate... timeChange = ' + timeChange);
 
-            if (!fs.existsSync(saveDirectory + gameName + '.json'))
+        for (var i = 0; i < runningGames.length; i++) {
+            console.log('\t\tupdating game ' + runningGames[i]);
+
+            if (!fs.existsSync(saveDirectory + runningGames[i] + '.json'))
             {
                 console.log('There was an error in \'run()\' - ' + runningGames[i] + ' is not a valid save.'); runningGames.splice(i, 1);
             }
 			else 
 			{			
-				var save = JSON.parse(fs.readFileSync(saveDirectory + gameName + '.json'));
+                var save = JSON.parse(fs.readFileSync(saveDirectory + runningGames[i] + '.json'));
 
 				save.countdown -= timeChange;
 
@@ -326,23 +328,23 @@ function run()
 				}
 				else if (save.countdown == (1/60))
 				{
-				    tweetTimeWarnings(runningGames[i], save, '1 minute');
+				    directMessagetTimeWarnings(runningGames[i], save, '1 minute');
 				}
 				else if (save.countdown == (5/60))
 				{
-				    tweetTimeWarnings(runningGames[i], save, '5 minutes');
+				    directMessagetTimeWarnings(runningGames[i], save, '5 minutes');
 				}
 				else if (save.countdown == (1/6))
 				{
-				    tweetTimeWarnings(runningGames[i], save, '10 minutes');
+				    directMessagetTimeWarnings(runningGames[i], save, '10 minutes');
 				}
 				else if (save.countdown == (1/2))
 				{
-				    tweetTimeWarnings(runningGames[i], save, '30 minutes');
+				    directMessagetTimeWarnings(runningGames[i], save, '30 minutes');
 				}
 				else if (save.countdown == 1)
 				{
-				    tweetTimeWarnings(runningGames[i], save, '1 hour');
+				    directMessagetTimeWarnings(runningGames[i], save, '1 hour');
 				}
 
 				var jsonSave = JSON.stringify(save, null, 2);
@@ -892,6 +894,14 @@ function tweetTimeWarnings(gameName, save, timeLeft)
         for (var p = 0; p < save.countries[countries[c]].players.length; p++)
         {
             tweet('The next turn for game \'' + gameName + '\' ends in ' + timeLeft + '. Make sure to turn in your orders!', save.countries[countries[c]].players[p]);
+        }
+    }
+}
+
+function directMessagetTimeWarnings(gameName, save, timeLeft) {
+    for (var c = 0; c < countries.length; c++) {
+        for (var p = 0; p < save.countries[countries[c]].players.length; p++) {
+            directMessage('The next turn for game \'' + gameName + '\' ends in ' + timeLeft + '. Make sure to turn in your orders!', save.countries[countries[c]].players[p]);
         }
     }
 }
