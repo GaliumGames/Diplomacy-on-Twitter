@@ -302,6 +302,8 @@ function run()
     
     while (true)
     {
+        date = new Date();
+
         timeChange = date.getHours() + (date.getMinutes() / 60) - lastTime;
         if (timeChange < 0) { timeChange += 24; }
         lastTime = date.getHours() + (date.getMinutes() / 60);
