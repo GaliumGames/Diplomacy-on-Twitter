@@ -542,7 +542,7 @@ function scanDirectMessage(twt, personFrom)
     }
     if (twt.includes('start game '))
     {
-        var context = twt.replace('start game ');
+        var context = twt.replace('start game ', '');
         startGame(context, personFrom);
     }
     if (twt.includes('delete game ')) //delete game
