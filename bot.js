@@ -304,9 +304,7 @@ function run()
     {
         date = new Date();
 
-        var currentTime = date.getHours() + (date.getMinutes() / 60) + (date.getSeconds() / 3600);
-
-        if (currentTime != lastTime) console.log('\tupdate...\n\t\ttime = ' + date + '\n\t\time = ' + (date.getHours() + (date.getMinutes() / 60) + (date.getSeconds() / 3600)) + '\n\t\tlastTime = ' + lastTime + '\n\t\ttimeChange = ' + (currentTime - lastTime));
+        var currentTime = date.getHours() + (date.getMinutes() / 60) + (date.getSeconds() / 3600) + (date.getMilliseconds() / 3600000);
 
         timeChange = currentTime - lastTime;
         if (timeChange < 0) { timeChange += 24; }
