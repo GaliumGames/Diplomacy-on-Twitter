@@ -304,9 +304,9 @@ function run()
     {
         date = new Date();
 
-        timeChange = date.getHours() + (date.getMinutes() / 60) - lastTime;
+        timeChange = date.getHours() + (date.getMinutes() / 60) + (date.getSeconds() / 3600) - lastTime;
         if (timeChange < 0) { timeChange += 24; }
-        lastTime = date.getHours() + (date.getMinutes() / 60);
+        lastTime = date.getHours() + (date.getMinutes() / 60) + (date.getSeconds() / 3600);
 
         console.log('\tupdate... timeChange = ' + timeChange + ', time = ' + date);
 
