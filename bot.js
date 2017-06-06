@@ -292,7 +292,7 @@ function start()
 {
     console.log('The Diplomacy Bot has started');
 
-    //run();
+    run();
 }
 
 function run()
@@ -309,8 +309,6 @@ function run()
         for (var i = 0; i < runningGames.length; i++) {
             var error = null;
 
-            //fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; });
-            //if (error == null) { console.log('There was an error in \'run()\' - ' + runningGames[i] + ' is not a valid save.'); runningGames.splice(i, 1); }
             if (!fs.existsSync(saveDirectory + gameName + '.json'))
             {
                 console.log('There was an error in \'run()\' - ' + runningGames[i] + ' is not a valid save.'); runningGames.splice(i, 1);
@@ -544,6 +542,7 @@ function scanDirectMessage(twt, personFrom)
     {
         var context = twt.replace('start game ', '');
         startGame(context, personFrom);
+        return;
     }
     if (twt.includes('delete game ')) //delete game
     {
