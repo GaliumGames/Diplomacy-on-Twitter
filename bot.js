@@ -304,11 +304,13 @@ function run()
     {
         date = new Date();
 
+        console.log('\tupdate...\n\t\ttime = ' + date + '\n\t\time = ' + (date.getHours() + (date.getMinutes() / 60) + (date.getSeconds() / 3600)) + '\n\t\tlastTime = ' + lastTime);
+
         timeChange = date.getHours() + (date.getMinutes() / 60) + (date.getSeconds() / 3600) - lastTime;
         if (timeChange < 0) { timeChange += 24; }
         lastTime = date.getHours() + (date.getMinutes() / 60) + (date.getSeconds() / 3600);
 
-        console.log('\tupdate... timeChange = ' + timeChange + ', time = ' + date);
+        console.log('\t\ttimeChange = ' + timeChange);
 
         for (var i = 0; i < runningGames.length; i++) {
             console.log('\t\tupdating game ' + runningGames[i]);
