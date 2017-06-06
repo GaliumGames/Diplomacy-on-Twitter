@@ -209,15 +209,15 @@ var abbreviations = [
 	
 	['brest', 'bre'],
 	['burgundy', 'bur'],
-	['gascony', 'gas']
+	['gascony', 'gas'],
 	['marseilles', 'mar'],
 	['paris', 'par'],
 	['picardy', 'pic'],
 	
 	['berlin', 'ber'],
-	['kiel', 'kie']
+	['kiel', 'kie'],
 	['munich', 'mun'],
-	['prussia', 'pru']
+	['prussia', 'pru'],
 	['ruhr', 'ruh'],
 	['silesia', 'sil'],
 	
@@ -309,11 +309,14 @@ function run()
         for (var i = 0; i < runningGames.length; i++) {
             var error = null;
 
-            fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; });
-            if (error == null) { console.log('There was an error in \'run()\' - ' + runningGames[i] + ' is not a valid save.'); runningGames.slice(i); }
+            //fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; });
+            //if (error == null) { console.log('There was an error in \'run()\' - ' + runningGames[i] + ' is not a valid save.'); runningGames.splice(i, 1); }
+            if (!fs.existsSync(saveDirectory + gameName + '.json'))
+            {
+                console.log('There was an error in \'run()\' - ' + runningGames[i] + ' is not a valid save.'); runningGames.splice(i, 1);
+            }
 			else 
-			{
-				
+			{			
 				var save = JSON.parse(fs.readFileSync(saveDirectory + gameName + '.json'));
 
 				save.countdown -= timeChange;
@@ -378,7 +381,7 @@ function tweetEvent(eventMsg) {
 
 	    console.log('Translated tweet: ' + text);
 
-	    scanForCommands(text, senderUserName);
+	    scanTweet(text, senderUserName);
 	}
 
 }
@@ -401,7 +404,7 @@ function directMessageEvent(directMsg)
         text = text.split(endTweetChars[i])[0];
     }
 
-    scanForOrders(text, from);
+    scanDirectMessage(text, from);
 }
 
 function followEvent(eventMessage)
@@ -428,7 +431,7 @@ function tweet(txt, personTo) {
 	
     if (personTo != '')
     {
-        txt = '@' + personTo + ' ' + txt + ' [' + String(Math.floor(Math.random() * 10000)) + ']';
+        txt = '@' + personTo + ' ' + txt + '\n[' + String(Math.floor(Math.random() * 10000)) + ']';
     }
 
 	var tweet = {
@@ -472,7 +475,7 @@ function directMessage(txt, personTo)
     }
 }
 
-function scanForCommands(twt, personFrom)
+function scanTweet(twt, personFrom)
 {
     //twt = twt.replace('start game ', 'create game ');
     twt = twt.replace('make game ', 'create game ');
@@ -495,67 +498,82 @@ function scanForCommands(twt, personFrom)
     {
         var context = twt.replace('create game ', '');
         createGame(context, personFrom);
+        return;
     }
-    else if (twt.includes('join game ')) //join game
+    if (twt.includes('join game ')) //join game
     {
         var context = twt.replace('join game ', '');
         var gameName = '';
         var country = '';
 
-        for (var i = 0; i < countries.length; i++) {
-            if (context.includes(countries[i])) {
-                gameName = context.replace(countries[i], '');
-				gameName = gameName.replace(' ', '');
-                country = countries[i];
-                break;
-            }
-        }
+        //for (var i = 0; i < countries.length; i++) {
+        //    if (context.includes(countries[i])) {
+        //        gameName = context.replace(countries[i], '');
+		//		gameName = gameName.replace(' ', '');
+        //        country = countries[i];
+        //        break;
+        //    }
+        //}
+
+        var split = context.split(' ');
+        gameName = split[0];
+        country = split[1];
 
         addPlayerToGame(gameName, personFrom, country);
+        return;
     }
-    else if (twt.includes('quit game ')) //quit game
+    if (twt.includes('quit game ')) //quit game
     {
         var context = twt.replace('quit game ', '');
         removePlayerFromGame(context, personFrom);
+        return;
     }
-    else if (twt.includes('lock game ')) //lock game
+    if (twt.includes('lock game ')) //lock game
     {
         var context = twt.replace('lock game ', '');
         lockGame(context, personFrom);
+        return;
     }
-    else if (twt.includes('start game '))
+    if (twt.includes('start game '))
     {
         var context = twt.replace('start game ');
         startGame(context, personFrom);
     }
-    else if (twt.includes('delete game ')) //delete game
+    if (twt.includes('delete game ')) //delete game
     {
         var context = twt.replace('delete game ', '');
         deleteGame(context, personFrom);
+        return;
     }
-    else if (twt.includes('resetAt '))
+    if (twt.includes('resetAt '))
     {
         var split = (twt.replace('resetAt ', '')).split(' ');
         var num = split[0]; var game = split[1];
 
         setResetAt(game, num, personFrom);
+        return;
     }
-    else if (twt.includes('turnLength ')) {
+    if (twt.includes('turnLength ')) {
         var split = (twt.replace('turnLength ', '')).split(' ');
         var num = split[0]; var game = split[1];
 
-        setTurnLength(game, num, pesonFrom);
+        setTurnLength(game, num, personFrom);
+        return;
     }
-    else if (twt.includes('abbreviations '))
+    if (twt.includes('abbreviations '))
     {
         var context = twt.replace('abbreviations ', '');
         tweetAppreviations(context, personFrom);
+        return;
     }
+
+    tweet('Command not recognized.', personFrom);
 }
 
-function scanForOrders(twt, personFrom)
+function scanDirectMessage(twt, personFrom)
 {
-    //twt = twt.replace('start game ', 'create game ');
+    twt = twt.replace('order syntax', 'syntax');
+    twt = twt.replace('how to write orders', 'syntax');
 
 
     if (twt.includes('select game ')) //create game
@@ -563,15 +581,41 @@ function scanForOrders(twt, personFrom)
         var context = twt.replace('select game ', '');
 
         selectGame(context, personFrom);
+        return;
     }
+    if (twt.includes('syntax')) //syntax
+    {
+        syntaxDirectMessage(personFrom);
+        return;
+    }
+    if (twt.includes('abbreviations '))
+    {
+        var context = twt.replace('abbreviations ', '');
+        
+        directMessageAppreviations(context, personFrom);
+        return;
+    }
+
+    directMessage('Command not recognized.', personFrom);
 }
 
 function createGame(gameName, admin)
 {
-    var error = null;
+    //var error = null;
+    //fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; }); // returns null if it exists
+    //if (error != null) { tweet('There is already a game with the name \'' + gameName + '\'. Please choose another name for your game.', admin); return; }
 
-    fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; }); // returns null if it exists
-    if (error == null) { tweet('There is already a game with the name \'' + gameName + '\'. Please choose another name for your game.', admin); return; }
+    // use r to throw error if it doesn't exist, use wx to throw error if it does exist
+    //var error = false;
+    //fs.open(saveDirectory + gameName + '.json', 'wx', function (err, fd) { if (err != null) { tweet('There is already a game with the name \'' + gameName + '\'. Please choose another name for your game.', admin); error = true; }});
+    //if (error) return;
+    //find some way to pause until assychronous fs.open is done
+
+    if (fs.existsSync(saveDirectory + gameName + '.json'))
+    {
+        tweet('There is already a game with the name \'' + gameName + '\'. Please choose another name for your game.', admin);
+        return;
+    }
 
     var save = emptyGameSave;
     save.admin = admin;
@@ -585,10 +629,14 @@ function createGame(gameName, admin)
 
 function isPlayerInGame(gameName, player)
 {
-	var error = null;
+	//var error = null;
+	//fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; }); // returns null if it exists
+    //if (error != null) { tweet('There is no game with name \'' + gameName + '\'.', player); return; }
 
-	fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; }); // returns null if it exists
-    if (error != null) { tweet('There is no game with name \'' + gameName + '\'.', player); return; }
+    if (!fs.existsSync(saveDirectory + gameName + '.json')) {
+        tweet('There is no game with name \'' + gameName + '\'.', player);
+        return;
+    }
 
     var save = JSON.parse(fs.readFileSync(saveDirectory + gameName + '.json'));
 	
@@ -608,18 +656,26 @@ function isPlayerInGame(gameName, player)
 
 function addPlayerToGame(gameName, player, country) //add a player to a country
 {
-    var error = null;
+    //var error = null;
+    //fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; }); // returns null if it exists
+    //if (error != null) { tweet('There is no game with name \'' + gameName + '\'.', player); return; }
 
-    fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; }); // returns null if it exists
-    if (error != null) { tweet('There is no game with name \'' + gameName + '\'.', player); return; }
+    if (!fs.existsSync(saveDirectory + gameName + '.json')) {
+        tweet('There is no game with name \'' + gameName + '\'.', player);
+        return;
+    }
 
     var save = JSON.parse(fs.readFileSync(saveDirectory + gameName + '.json'));
 
     if (save.locked) { tweet('You cannot join game \'' + gameName + '\' - it is locked!', player); return; }
 	
-	if (isPlayerInGame(gameName, player)) { tweet('You could not join game \'' + gameName + '\' becuase you are already in it.', player); return; }
+	if (isPlayerInGame(gameName, player)) { tweet('You could not join game \'' + gameName + '\' because you are already in it.', player); return; }
 
-    if (save.countries[country] == undefined) { tweet('That is not a valid country!\nPlease join \'AUSTRO-HUNGARY\', \'GREAT BRITAIN\', \'FRANCE\', \'ITALY\', \'GERMANY\', \'RUSSIA\', or \'OTTOMANS\'.', player); return; }
+	if (save.countries[country] == undefined) {
+	    tweet('\'' + country + '\' is not a valid country!', player);
+	    tweet('Please join \'AUSTRO-HUNGARY\', \'GREAT BRITAIN\', \'FRANCE\', \'ITALY\', \'GERMANY\', \'RUSSIA\', or \'OTTOMANS\'.', player);
+	    return;
+	}
 
     save.countries[country].players.push(player);
 
@@ -632,10 +688,14 @@ function addPlayerToGame(gameName, player, country) //add a player to a country
 
 function removePlayerFromGame(gameName, player)
 {
-    var error = null;
+    //var error = null;
+    //fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; }); // returns null if it exists
+    //if (error != null) { tweet('There is no game with name \'' + gameName + '\'.', player); return; }
 
-    fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; }); // returns null if it exists
-    if (error != null) { tweet('There is no game with name \'' + gameName + '\'.', player); return; }
+    if (!fs.existsSync(saveDirectory + gameName + '.json')) {
+        tweet('There is no game with name \'' + gameName + '\'.', player);
+        return;
+    }
 
     var save = JSON.parse(fs.readFileSync(saveDirectory + gameName + '.json'));
 	
@@ -643,11 +703,15 @@ function removePlayerFromGame(gameName, player)
 
     for (var c = 0; c < countries.length; c++)
     {
+        console.log('searching in ' + countries[c] + '...');
+
         for (var i = 0; i < save.countries[countries[c]].players.length; i++)
         {
+            console.log('\tchecking player ' + save.countries[countries[c]].players[i] + '...');
             if (player == save.countries[countries[c]].players[i])
             {
-                save.countries[countries[c]].players.slice(i);
+                console.log('\t\tfound match! removing...');
+                save.countries[countries[c]].players.splice(i, 1);
                 break;
             }
         }
@@ -663,10 +727,14 @@ function removePlayerFromGame(gameName, player)
 
 function lockGame(gameName, commandFrom) //edit the lock state
 {
-    var error = null;
+    //var error = null;
+    //fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; }); // returns null if it exists
+    //if (error != null) { tweet('There is no game with name \'' + gameName + '\'.', commandFrom); return; }
 
-    fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; }); // returns null if it exists
-    if (error != null) { tweet('There is no game with name \'' + gameName + '\'.', commandFrom); return; }
+    if (!fs.existsSync(saveDirectory + gameName + '.json')) {
+        tweet('There is no game with name \'' + gameName + '\'.', commandFrom);
+        return;
+    }
 
     var save = JSON.parse(fs.readFileSync(saveDirectory + gameName + '.json'));
 
@@ -683,10 +751,14 @@ function lockGame(gameName, commandFrom) //edit the lock state
 
 function startGame(gameName, commandFrom)
 {
-    var error = null;
+    //var error = null;
+    //fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; }); // returns null if it exists
+    //if (error != null) { tweet('There is no game with name \'' + gameName + '\'.', commandFrom); return; }
 
-    fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; }); // returns null if it exists
-    if (error != null) { tweet('There is no game with name \'' + gameName + '\'.', commandFrom); return; }
+    if (!fs.existsSync(saveDirectory + gameName + '.json')) {
+        tweet('There is no game with name \'' + gameName + '\'.', commandFrom);
+        return;
+    }
 
     var save = JSON.parse(fs.readFileSync(saveDirectory + gameName + '.json'));
 
@@ -712,10 +784,14 @@ function startGame(gameName, commandFrom)
 
 function deleteGame(gameName, commandFrom) //delete the save file
 {
-    var error = null;
-	
-    fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; }); // returns null if it exists
-    if (error != null) { tweet('There is no game with name \'' + gameName + '\'.', commandFrom); return; }
+    //var error = null;
+    //fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; }); // returns null if it exists
+    //if (error != null) { tweet('There is no game with name \'' + gameName + '\'.', commandFrom); return; }
+
+    if (!fs.existsSync(saveDirectory + gameName + '.json')) {
+        tweet('There is no game with name \'' + gameName + '\'.', commandFrom);
+        return;
+    }
 	
     var save = JSON.parse(fs.readFileSync(saveDirectory + gameName + '.json'));
 	
@@ -734,10 +810,14 @@ function deleteGame(gameName, commandFrom) //delete the save file
 
 function setResetAt(gameName, num, commandFrom)
 {
-    var error = null;
+    //var error = null;
+    //fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; }); // returns null if it exists
+    //if (error != null) { tweet('There is no game with name \'' + gameName + '\'.', commandFrom); return; }
 
-    fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; }); // returns null if it exists
-    if (error != null) { tweet('There is no game with name \'' + gameName + '\'.', commandFrom); return; }
+    if (!fs.existsSync(saveDirectory + gameName + '.json')) {
+        tweet('There is no game with name \'' + gameName + '\'.', commandFrom);
+        return;
+    }
 
     var save = JSON.parse(fs.readFileSync(saveDirectory + gameName + '.json'));
 
@@ -758,10 +838,14 @@ function setResetAt(gameName, num, commandFrom)
 
 function setTurnLength(gameName, num, commandFrom)
 {
-    var error = null;
+    //var error = null;
+    //fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; }); // returns null if it exists
+    //if (error != null) { tweet('There is no game with name \'' + gameName + '\'.', commandFrom); return; }
 
-    fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; }); // returns null if it exists
-    if (error != null) { tweet('There is no game with name \'' + gameName + '\'.', commandFrom); return; }
+    if (!fs.existsSync(saveDirectory + gameName + '.json')) {
+        tweet('There is no game with name \'' + gameName + '\'.', commandFrom);
+        return;
+    }
 
     var save = JSON.parse(fs.readFileSync(saveDirectory + gameName + '.json'));
 
@@ -782,11 +866,23 @@ function setTurnLength(gameName, num, commandFrom)
     tweet('turnLength of game \'' + gameName + '\' was successfully set to ' + num + '.', commandFrom)
 }
 
+function tweetAppreviations(province, commandFrom) {
+    var str = stringifyAppreviations(province);
+    if (str == null) { tweet('There is no province named \'' + province + '\'.', commandFrom); return; }
+
+    tweet(str, commandFrom);
+}
+
 function selectGame(gameName, commandFrom)
 {
-    var error = null;
-    fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; }); // returns null if it exists
-    if (error != null) { directMessage('There is no game with name \'' + gameName + '\'.', commandFrom); console.log(saveDirectory + gameName + '.json does not exist.'); return; }
+    //var error = null;
+    //fs.access(saveDirectory + gameName + '.json', fs.constants.F_OK, function (err) { error = err; }); // returns null if it exists
+    //if (error != null) { directMessage('There is no game with name \'' + gameName + '\'.', commandFrom); console.log(saveDirectory + gameName + '.json does not exist.'); return; }
+
+    if (!fs.existsSync(saveDirectory + gameName + '.json')) {
+        tweet('There is no game with name \'' + gameName + '\'.', commandFrom);
+        return;
+    }
 
     var alreadySet = false;
     for (var i = 0; i < selectedGames.length; i++) {
@@ -803,12 +899,19 @@ function selectGame(gameName, commandFrom)
     directMessage('You can now enter orders for game \'' + gameName + '\'.', commandFrom);
 }
 
-function tweetAppreviations(province, commandFrom)
+function syntaxDirectMessage(commandFrom)
+{
+    directMessage('MOVE: [Army / Fleet] [Province] [M / >] [Other Province]',commandFrom);
+    directMessage('SUPPORT: [Army / Fleet] [Province] [S / +] [Army/Fleet] [Other Province]', commandFrom);
+    directMessage('CONVOY: Fleet [Province] [C / _] Army [Other Province]', commandFrom);
+}
+
+function directMessageAppreviations(province, commandFrom)
 {
     var str = stringifyAppreviations(province);
-    if (str == null) { tweet('There is no province named \'' + province + '\'.', commandFrom); return; }
+    if (str == null) { directMessage('There is no province named \'' + province + '\'.', commandFrom); return; }
 
-    tweet(str, commandFrom);
+    directMessage(str, commandFrom);
 }
 
 function tweetTimeWarnings(gameName, save, timeLeft)
