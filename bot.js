@@ -340,7 +340,7 @@ function run()
             }
 
             var jsonSave = JSON.stringify(save, null, 2);
-            fs.writeFileSync(saveDirectory + gameName + '.json', jsonSave);
+            fs.writeFileSync(saveDirectory + runningGames[i] + '.json', jsonSave);
         }      
     }
 
@@ -770,9 +770,11 @@ function deleteGame(gameName, commandFrom) //delete the save file
 
     fs.unlinkSync(saveDirectory + gameName + '.json');	
     directMessage('Game \'' + gameName + '\' has been deleted. Thank you for playing!', commandFrom);
-    for (var i = 0; i < countries.length; i++) {
-        for (var i2 = 0; i2 < save.countries[countries[i]].players.length; i2++) {
-            directMessage('Game \'' + gameName + '\' has ended. Thank you for playing!', save.countries[countries[i]].players[i]);
+    for (var i = 0; i < countries.length; i++)
+    {
+        for (var i2 = 0; i2 < save.countries[countries[i]].players.length; i2++)
+        {
+            directMessage('Game \'' + gameName + '\' has ended. Thank you for playing!', save.countries[countries[i]].players[i2]);
         }
     }
 }
@@ -795,6 +797,8 @@ function setResetAt(gameName, num, commandFrom)
     var set = parseFloat(num.replace(/[^\d.]/g, ''));
     
     if (set == NaN || set == null) { console.log('Could not parse float: ' + num); directMessage('There was a problem with your command. ' + num + ' is not a number, so resetAt cannot be set to it.', commandFrom); return; }
+
+    if (set < 0 || set > 24) { directMessage('There was a problem with your command. ' + num + ' is not a valid time for resetAt.', commandFrom); return; }
 
     save.resetAt = set;
 
@@ -824,7 +828,7 @@ function setTurnLength(gameName, num, commandFrom)
 
     if (set == NaN || set == null) { console.log('Could not parse float: ' + num); directMessage('There was a problem with your command. ' + num + ' is not a number, so turnLength cannot be set to it.', commandFrom); return; }
 
-    if (set < (1 / 2)) { directMessage('There was a problem with your command. ' + num + ' is too small a length of time, so turnLength cannot be set to it.', commandFrom); return; }
+    //if (set < (1 / 2)) { directMessage('There was a problem with your command. ' + num + ' is too small a length of time, so turnLength cannot be set to it.', commandFrom); return; }
 
     save.turnLength = set;
 
