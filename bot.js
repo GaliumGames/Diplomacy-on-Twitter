@@ -309,7 +309,7 @@ function run()
     if (timeChange < 0) { timeChange += 24; }
 
     for (var i = 0; i < runningGames.length; i++) {
-        console.log('\t\tupdating game ' + runningGames[i]);
+        console.log('\tupdating game ' + runningGames[i]);
 
         if (!fs.existsSync(saveDirectory + runningGames[i] + '.json')) {
             console.log('There was an error in \'run()\' - ' + runningGames[i] + ' is not a valid save.'); runningGames.splice(i, 1);
@@ -320,23 +320,31 @@ function run()
             var previousCountdown = save.countdown;
             save.countdown -= timeChange;
 
+            console.log('\t\tprevious countdown = ' + previousCountdown + '\n\t\tcurrent countdown = ' + save.countdown + '\n\t\ttimeChange = ' + timeChange);
+
             if (save.countdown <= 0) {
+                console.log('\t\tcountdown over');
                 //do turn calcs and stuff
                 save.countdown = save.turnLength;
             }
             else if (save.countdown <= (1 / 60) && previousCountdown > (1 / 60)) {
+                console.log('\t\t1 minute left');
                 directMessagetTimeWarnings(runningGames[i], save, '1 minute');
             }
             else if (save.countdown <= (5 / 60) && previousCountdown > (5 / 60)) {
+                console.log('\t\t5 minutes left');
                 directMessagetTimeWarnings(runningGames[i], save, '5 minutes');
             }
             else if (save.countdown <= (1 / 6) && previousCountdown > (1 / 6)) {
+                console.log('\t\t10 minutes left');
                 directMessagetTimeWarnings(runningGames[i], save, '10 minutes');
             }
             else if (save.countdown <= (1 / 2) && previousCountdown > (1 / 2)) {
+                console.log('\t\t30 minutes left');
                 directMessagetTimeWarnings(runningGames[i], save, '30 minutes');
             }
             else if (save.countdown <= 1 && previousCountdown > 1) {
+                console.log('\t\t1 hour left');
                 directMessagetTimeWarnings(runningGames[i], save, '1 hour');
             }
 
