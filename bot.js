@@ -317,25 +317,26 @@ function run()
         else {
             var save = JSON.parse(fs.readFileSync(saveDirectory + runningGames[i] + '.json'));
 
+            var previousCountdown = save.countdown;
             save.countdown -= timeChange;
 
-            if (save.countdown == 0) {
+            if (save.countdown <= 0) {
                 //do turn calcs and stuff
                 save.countdown = save.turnLength;
             }
-            else if (save.countdown == (1 / 60)) {
+            else if (save.countdown <= (1 / 60) && previousCountdown > (1 / 60)) {
                 directMessagetTimeWarnings(runningGames[i], save, '1 minute');
             }
-            else if (save.countdown == (5 / 60)) {
+            else if (save.countdown <= (5 / 60) && previousCountdown > (5 / 60)) {
                 directMessagetTimeWarnings(runningGames[i], save, '5 minutes');
             }
-            else if (save.countdown == (1 / 6)) {
+            else if (save.countdown <= (1 / 6) && previousCountdown > (1 / 6)) {
                 directMessagetTimeWarnings(runningGames[i], save, '10 minutes');
             }
-            else if (save.countdown == (1 / 2)) {
+            else if (save.countdown <= (1 / 2) && previousCountdown > (1 / 2)) {
                 directMessagetTimeWarnings(runningGames[i], save, '30 minutes');
             }
-            else if (save.countdown == 1) {
+            else if (save.countdown <= 1 && previousCountdown > 1) {
                 directMessagetTimeWarnings(runningGames[i], save, '1 hour');
             }
 
