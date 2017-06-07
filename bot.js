@@ -22,7 +22,7 @@ var emptyGameSave = {
     'locked': false,
     'admin': '',
     'countries': {
-        'AUSTRO-HUNGARY': {
+        'AUSTRIA-HUNGARY': {
             'players': [],
             'color': [0, 0, 0, 0],
             'provinces': ['bohemia', 'budapest', 'galicia', 'trieste', 'tyrelia', 'vienna'],
@@ -183,7 +183,7 @@ var emptyOrderFormat = {
 };*/
 
 var countries = [
-    'AUSTRO-HUNGARY',
+    'AUSTRIA-HUNGARY',
     'GREAT BRITAIN',
     'FRANCE',
     'ITALY',
@@ -285,6 +285,8 @@ var selectedGames = [
 
 ]
 
+var lastUpdateTime = 0;
+
 start();
 
 
@@ -292,69 +294,57 @@ function start()
 {
     console.log('The Diplomacy Bot has started');
 
-    run();
+    //run();
+
+    setInterval(run, 10000);
 }
 
 function run()
 {
-    var timeChange = 0;
-    var lastTime = date.getHours() + (date.getMinutes() / 60);
-    
-    while (true)
-    {
-        date = new Date();
+    date = new Date();
 
-        var currentTime = date.getHours() + (date.getMinutes() / 60) + (date.getSeconds() / 3600) + (date.getMilliseconds() / 3600000);
+    var currentTime = date.getHours() + (date.getMinutes() / 60) + (date.getSeconds() / 3600) + (date.getMilliseconds() / 3600000);
 
-        timeChange = currentTime - lastTime;
-        if (timeChange < 0) { timeChange += 24; }
-        lastTime = currentTime;
+    var timeChange = currentTime - lastUpdateTime;
+    if (timeChange < 0) { timeChange += 24; }
 
-        for (var i = 0; i < runningGames.length; i++) {
-            console.log('\t\tupdating game ' + runningGames[i]);
+    for (var i = 0; i < runningGames.length; i++) {
+        console.log('\t\tupdating game ' + runningGames[i]);
 
-            if (!fs.existsSync(saveDirectory + runningGames[i] + '.json'))
-            {
-                console.log('There was an error in \'run()\' - ' + runningGames[i] + ' is not a valid save.'); runningGames.splice(i, 1);
-            }
-			else 
-			{			
-                var save = JSON.parse(fs.readFileSync(saveDirectory + runningGames[i] + '.json'));
-
-				save.countdown -= timeChange;
-
-				if (save.countdown == 0)
-				{
-				    //do turn calcs and stuff
-				    save.countdown = save.turnLength;
-				}
-				else if (save.countdown == (1/60))
-				{
-				    directMessagetTimeWarnings(runningGames[i], save, '1 minute');
-				}
-				else if (save.countdown == (5/60))
-				{
-				    directMessagetTimeWarnings(runningGames[i], save, '5 minutes');
-				}
-				else if (save.countdown == (1/6))
-				{
-				    directMessagetTimeWarnings(runningGames[i], save, '10 minutes');
-				}
-				else if (save.countdown == (1/2))
-				{
-				    directMessagetTimeWarnings(runningGames[i], save, '30 minutes');
-				}
-				else if (save.countdown == 1)
-				{
-				    directMessagetTimeWarnings(runningGames[i], save, '1 hour');
-				}
-
-				var jsonSave = JSON.stringify(save, null, 2);
-				fs.writeFileSync(saveDirectory + gameName + '.json', jsonSave);
-			}
-
+        if (!fs.existsSync(saveDirectory + runningGames[i] + '.json')) {
+            console.log('There was an error in \'run()\' - ' + runningGames[i] + ' is not a valid save.'); runningGames.splice(i, 1);
         }
+        else {
+            var save = JSON.parse(fs.readFileSync(saveDirectory + runningGames[i] + '.json'));
+
+            save.countdown -= timeChange;
+
+            if (save.countdown == 0) {
+                //do turn calcs and stuff
+                save.countdown = save.turnLength;
+            }
+            else if (save.countdown == (1 / 60)) {
+                directMessagetTimeWarnings(runningGames[i], save, '1 minute');
+            }
+            else if (save.countdown == (5 / 60)) {
+                directMessagetTimeWarnings(runningGames[i], save, '5 minutes');
+            }
+            else if (save.countdown == (1 / 6)) {
+                directMessagetTimeWarnings(runningGames[i], save, '10 minutes');
+            }
+            else if (save.countdown == (1 / 2)) {
+                directMessagetTimeWarnings(runningGames[i], save, '30 minutes');
+            }
+            else if (save.countdown == 1) {
+                directMessagetTimeWarnings(runningGames[i], save, '1 hour');
+            }
+
+            var jsonSave = JSON.stringify(save, null, 2);
+            fs.writeFileSync(saveDirectory + gameName + '.json', jsonSave);
+        }      
     }
+
+    lastUpdateTime = currentTime;
 }
 
 function tweetEvent(eventMsg) {
@@ -656,7 +646,7 @@ function addPlayerToGame(gameName, player, country) //add a player to a country
 
 	if (save.countries[country] == undefined) {
 	    directMessage('\'' + country + '\' is not a valid country!', player);
-	    directMessage('Please join \'AUSTRO-HUNGARY\', \'GREAT BRITAIN\', \'FRANCE\', \'ITALY\', \'GERMANY\', \'RUSSIA\', or \'OTTOMANS\'.', player);
+	    directMessage('Please join \'AUSTRIA-HUNGARY\', \'GREAT BRITAIN\', \'FRANCE\', \'ITALY\', \'GERMANY\', \'RUSSIA\', or \'OTTOMANS\'.', player);
 	    return;
 	}
 
