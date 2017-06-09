@@ -309,7 +309,7 @@ function run()
     if (timeChange < 0) { timeChange += 24; }
 
     for (var i = 0; i < runningGames.length; i++) {
-        console.log('\tupdating game ' + runningGames[i]);
+        console.log('\tupdating...' + runningGames[i]);
 
         if (!fs.existsSync(saveDirectory + runningGames[i] + '.json')) {
             console.log('There was an error in \'run()\' - ' + runningGames[i] + ' is not a valid save.'); runningGames.splice(i, 1);
@@ -324,6 +324,7 @@ function run()
 
             if (save.countdown <= 0) {
                 console.log('\t\tcountdown over');
+                directMessageTurnOver(runningGames[i], save);
                 //do turn calcs and stuff
                 save.countdown = save.turnLength;
             }
@@ -491,6 +492,9 @@ function scanDirectMessage(twt, personFrom)
 
     twt = twt.replace('begin game ', 'start game ');
 
+    twt = twt.replace('halt game ', 'pause game ');
+    twt = twt.replace('resume game ', 'unpause game ');
+
     twt = twt.replace('end game ', 'delete game ');
 
     twt = twt.replace('resetTime ', 'resetAt ');
@@ -545,6 +549,17 @@ function scanDirectMessage(twt, personFrom)
     {
         var context = twt.replace('start game ', '');
         startGame(context, personFrom);
+        return;
+    }
+    if (twt.includes('pause game '))
+    {
+        var context = twt.replace('pause game ', '');
+        pauseGame(context, personFrom);
+        return;
+    }
+    if (twt.includes('unpause game ')) {
+        var context = twt.replace('unpause game ', '');
+        unpauseGame(context, personFrom);
         return;
     }
     if (twt.includes('delete game ')) //delete game
@@ -753,11 +768,63 @@ function startGame(gameName, commandFrom)
         }
     }
 
-    save.nextTurnEnd = save.resetAt;
+    var currentTime = date.getHours() + (date.getMinutes() / 60) + (date.getSeconds() / 3600) + (date.getMilliseconds() / 3600000);
+
+    save.countdown = save.resetAt - currentTime;
 
     var jsonSave = JSON.stringify(save, null, 2);
 
     fs.writeFileSync(saveDirectory + gameName + '.json', jsonSave);
+}
+
+function pauseGame(gameName, commandFrom)
+{
+    if (!fs.existsSync(saveDirectory + gameName + '.json')) {
+        directMessage('There is no game with name \'' + gameName + '\'.', commandFrom);
+        return;
+    }
+
+    var save = JSON.parse(fs.readFileSync(saveDirectory + gameName + '.json'));
+
+    if (save.admin != commandFrom) { directMessage('You do not have the authority to start game \'' + gameName + '\'. You are not the admin.', commandFrom); return; }
+
+    var index = runningGames.indexOf(gameName);
+
+    if (index == -1) { directMessage('You cannot pause game \'' + gameName + '\' because it is not currently running.', commandFrom); return; }
+
+    runningGames.splice(index, 1);
+
+    directMessage('Game \'' + gameName + '\' has been paused.', commandFrom);
+    for (var i = 0; i < countries.length; i++) {
+        for (var i2 = 0; i2 < save.countries[countries[i]].players.length; i2++) {
+            directMessage('Game \'' + gameName + '\' has been paused by the admin.', save.countries[countries[i]].players[i]);
+        }
+    }
+}
+
+function unpauseGame(gameName, commandFrom)
+{
+    if (!fs.existsSync(saveDirectory + gameName + '.json')) {
+        directMessage('There is no game with name \'' + gameName + '\'.', commandFrom);
+        return;
+    }
+
+    var save = JSON.parse(fs.readFileSync(saveDirectory + gameName + '.json'));
+
+    if (save.admin != commandFrom) { directMessage('You do not have the authority to start game \'' + gameName + '\'. You are not the admin.', commandFrom); return; }
+
+    var index = runningGames.indexOf(gameName);
+
+    if (index != -1) { directMessage('You cannot unpause game \'' + gameName + '\' because it is already running.', commandFrom); return; }
+
+    runningGames.push(gameName);
+
+    directMessage('Game \'' + gameName + '\' has been unpaused.', commandFrom);
+    for (var i = 0; i < countries.length; i++) {
+        for (var i2 = 0; i2 < save.countries[countries[i]].players.length; i2++) {
+            directMessage('Game \'' + gameName + '\' has been unpaused by the admin.', save.countries[countries[i]].players[i]);
+        }
+    }
 }
 
 function deleteGame(gameName, commandFrom) //delete the save file
@@ -909,6 +976,19 @@ function directMessagetTimeWarnings(gameName, save, timeLeft) {
             directMessage('The next turn for game \'' + gameName + '\' ends in ' + timeLeft + '. Make sure to turn in your orders!', save.countries[countries[c]].players[p]);
         }
     }
+
+    directMessage('The next turn for game \'' + gameName + '\' - which you are admin of - ends in ' + timeLeft + '.', save.admin);
+}
+
+function directMessageTurnOver(gameName, save)
+{
+    for (var c = 0; c < countries.length; c++) {
+        for (var p = 0; p < save.countries[countries[c]].players.length; p++) {
+            directMessage('The turn for game \'' + gameName + '\' just ended. Results should be up promptly.', save.countries[countries[c]].players[p]);
+        }
+    }
+
+    directMessage('The turn for game \'' + gameName + '\' - which you are admin of - just ended. Results should be up promptly.', save.admin);
 }
 
 function stringifyAppreviations(province)
