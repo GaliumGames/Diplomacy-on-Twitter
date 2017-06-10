@@ -198,7 +198,7 @@ var abbreviations = [
     ['galicia', 'gal', 'glc'],
     ['trieste', 'tri', 'trs'],
     ['tyrelia', 'tyr'],
-    ['vienna', 'vie'],
+    ['vienna', 'vie', 'vnn'],
 
     ['clyde', 'cly'],
     ['edinburgh', 'edi'],
@@ -211,18 +211,18 @@ var abbreviations = [
 	['burgundy', 'bur'],
 	['gascony', 'gas'],
 	['marseilles', 'mar'],
-	['paris', 'par'],
-	['picardy', 'pic'],
+	['paris', 'par', 'prs'],
+	['picardy', 'pic', 'pcrd'],
 	
 	['berlin', 'ber'],
 	['kiel', 'kie'],
 	['munich', 'mun'],
-	['prussia', 'pru'],
+	['prussia', 'pru', 'prss'],
 	['ruhr', 'ruh'],
-	['silesia', 'sil'],
+	['silesia', 'sil', 'sls'],
 	
 	['apulia', 'apu', 'apl'],
-    ['naples', 'nap'],
+    ['naples', 'nap', 'npl'],
     ['piedmont', 'pie'],
     ['rome', 'rom'],
     ['tuscany', 'tus', 'tsc'],
@@ -330,23 +330,23 @@ function run()
             }
             else if (save.countdown <= (1 / 60) && previousCountdown > (1 / 60)) {
                 console.log('\t\t1 minute left');
-                directMessagetTimeWarnings(runningGames[i], save, '1 minute');
+                directMessageTimeWarnings(runningGames[i], save, '1 minute');
             }
             else if (save.countdown <= (5 / 60) && previousCountdown > (5 / 60)) {
                 console.log('\t\t5 minutes left');
-                directMessagetTimeWarnings(runningGames[i], save, '5 minutes');
+                directMessageTimeWarnings(runningGames[i], save, '5 minutes');
             }
             else if (save.countdown <= (1 / 6) && previousCountdown > (1 / 6)) {
                 console.log('\t\t10 minutes left');
-                directMessagetTimeWarnings(runningGames[i], save, '10 minutes');
+                directMessageTimeWarnings(runningGames[i], save, '10 minutes');
             }
             else if (save.countdown <= (1 / 2) && previousCountdown > (1 / 2)) {
                 console.log('\t\t30 minutes left');
-                directMessagetTimeWarnings(runningGames[i], save, '30 minutes');
+                directMessageTimeWarnings(runningGames[i], save, '30 minutes');
             }
             else if (save.countdown <= 1 && previousCountdown > 1) {
                 console.log('\t\t1 hour left');
-                directMessagetTimeWarnings(runningGames[i], save, '1 hour');
+                directMessageTimeWarnings(runningGames[i], save, '1 hour');
             }
 
             var jsonSave = JSON.stringify(save, null, 2);
@@ -505,6 +505,8 @@ function scanDirectMessage(twt, personFrom)
     twt = twt.replace('order syntax', 'syntax');
     twt = twt.replace('how to write orders', 'syntax');
 
+    twt = twt.replace('delete orders', 'wipe orders');
+
     if (twt.includes('create game ')) //create game
     {
         var context = twt.replace('create game ', '');
@@ -527,8 +529,8 @@ function scanDirectMessage(twt, personFrom)
         //}
 
         var split = context.split(' ');
-        gameName = split[0];
-        country = context.replace(gameName, '');
+        gameName = split[0].replace(' ', '');
+        country = context.replace(gameName, '').replace(' ', '');
 
         addPlayerToGame(gameName, personFrom, country);
         return;
@@ -601,6 +603,22 @@ function scanDirectMessage(twt, personFrom)
         var context = twt.replace('abbreviations ', '');
         
         directMessageAppreviations(context, personFrom);
+        return;
+    }
+    if (twt.includes('order '))
+    {
+        twt = twt.replace('order ', '');
+        orders(twt, personFrom);
+        return;
+    }
+    if (twt == 'current orders')
+    {
+        currentOrders(personFrom);
+        return;
+    }
+    if (twt == 'wipe orders')
+    {
+        wipeOrders(personFrom);
         return;
     }
 
@@ -707,6 +725,15 @@ function removePlayerFromGame(gameName, player)
                 save.countries[countries[c]].players.splice(i, 1);
                 break;
             }
+        }
+    }
+
+    for (var i = 0; i < selectedGames.length; i++)
+    {
+        if (selectedGames[i][0] == player && selectedGames[i][1] == gameName)
+        {
+            selectedGames.splice(i, 1);
+            break;
         }
     }
 
@@ -844,6 +871,15 @@ function deleteGame(gameName, commandFrom) //delete the save file
 
     runningGames.splice(runningGames.indexOf(gameName), 1);
 
+    for (var i = 0; i < selectedGames.length; i++)
+    {
+        if (selectedGames[i][1] == gameName)
+        {
+            selectedGames.splice(i, 1);
+            i -= 1;
+        }
+    }
+
     fs.unlinkSync(saveDirectory + gameName + '.json');	
     directMessage('Game \'' + gameName + '\' has been deleted. Thank you for playing!', commandFrom);
     for (var i = 0; i < countries.length; i++)
@@ -929,6 +965,8 @@ function selectGame(gameName, commandFrom)
         return;
     }
 
+    if (!isPlayerInGame(gameName, commandFrom)) { directMessage('You cannot select game \'' + gameName + '\' because you are not in it.', commandFrom); return; }
+
     var alreadySet = false;
     for (var i = 0; i < selectedGames.length; i++) {
         if (selectedGames[i][0] == commandFrom) {
@@ -959,6 +997,204 @@ function directMessageAppreviations(province, commandFrom)
     directMessage(str, commandFrom);
 }
 
+function orders(text, commandFrom)
+{
+    var indexSelectedGame = -1;
+
+    for (var i = 0; i < selectedGames.length; i++) {
+        if (selectedGames[i][0] == commandFrom) {
+            indexSelectedGame = i;
+            break;
+        }
+    }
+
+    if (indexSelectedGame == -1) { directMessage('You have not selected a game. You must select a game before you can turn in orders.', commandFrom); return; }
+
+    if (!fs.existsSync(saveDirectory + selectedGames[indexSelectedGame][1] + '.json'))
+    {
+        directMessage('The game you have selected - \'' + selectedGames[indexSelectedGame][1] + '\' - is not valid. Please select another game.', commandFrom);
+        selectedGames.splice(indexSelectedGame, 1);
+        return;
+    }
+
+    if (!isPlayerInGame(selectedGames[indexSelectedGame][1], commandFrom)) { directMessage('You have not selected a game. You must select a game before you can ask for orders.', commandFrom); selectedGames.splice(indexSelectedGame, 1); return; }
+
+    var save = JSON.parse(fs.readFileSync(saveDirectory + selectedGames[indexSelectedGame][1] + '.json'));
+
+    var countryIn = '';
+    for (var c = 0; c < countries.length; c++)
+    {
+        for (var i = 0; i < save.countries[countries[c]].players.length; i++)
+        {
+            if (save.countries[countries[c]].players[i] == commandFrom)
+            {
+                countryIn = countries[c];
+            }
+        }
+    }
+    if (countryIn == '') { console.log('There was a problem processing order: \'' + text + '\' from ' + commandFrom + ', who has selected game \'' + selectedGames[indexSelectedGame][1] + '\'. This error should not have occured. Something weird is up.'); directMessage('Your order could not be processed because of an internal problem. You should try quitting and rejoining the game to fix the problem.', commandFrom); return; }
+
+    var split = text.split(' ');
+    if (split.length != 3) { directMessage('Your order had incorrect format. Try again.', commandFrom); return; }
+    var province = split[0].replace(' ', '');
+    var order = split[1];
+    var affect = split[2]
+
+    for (var i = 0; i < abbreviations.length; i++)
+    {
+        for (var i2 = 1; i2 < abbreviations[i].length; i2++)
+        {
+            if (province == abbreviations[i][i2])
+            {
+                province = abbreviations[i][0];
+                break;
+            }
+        }
+    }
+    
+    var actualProvince = false;
+    for (var i = 0; i < abbreviations.length; i++)
+    {
+        if (province == abbreviations[i][0])
+        {
+            actualProvince = true;
+            break;
+        }
+    }
+    if (!actualProvince) { directMessage('Your order had incorrect format. There is no province named \'' + province + '\'.', commandFrom); return; }
+
+
+    order = order.replace('M', '>');
+    order = order.replace('&gt;', '>');
+    order = order.replace('S', '+');
+    order = order.replace('C', '_');
+    if (order != '>' && order != '+' && order != '_') { directMessage('Your order had incorrect format. \'' + order + '\' is not a valid order type.', commandFrom); return; }
+
+
+    for (var i = 0; i < abbreviations.length; i++) {
+        for (var i2 = 1; i2 < abbreviations[i].length; i2++) {
+            if (affect == abbreviations[i][i2]) {
+                affect = abbreviations[i][0];
+                break;
+            }
+        }
+    }
+
+    actualProvince = false;
+    for (var i = 0; i < abbreviations.length; i++) {
+        if (affect == abbreviations[i][0]) {
+            actualProvince = true;
+            break;
+        }
+    }
+    if (!actualProvince) { directMessage('Your order had incorrect format. There is no province named \'' + affect + '\'.', commandFrom); return; }
+
+    if (!validOrder(province, order, affect)) { directMessage('Your order was incorrect because a unit in \'' + province + '\' cannot affect \'' + affect + '\'.', commandFrom); return; }
+
+    save.countries[countryIn].orders.push({
+        'province': province,
+        'order': order,
+        'affect': affect
+    });
+
+    var jsonSave = JSON.stringify(save, null, 2);
+
+    fs.writeFileSync(saveDirectory + selectedGames[indexSelectedGame][1] + '.json', jsonSave);
+
+    directMessage('Your order has successfully been processed.', commandFrom);
+}
+
+function currentOrders(commandFrom)
+{
+    var indexSelectedGame = -1;
+
+    for (var i = 0; i < selectedGames.length; i++)
+    {
+        if (selectedGames[i][0] == commandFrom)
+        {
+            indexSelectedGame = i;
+            break;
+        }
+    }
+
+    if (indexSelectedGame == -1) { directMessage('You have not selected a game. You must select a game before you can ask for orders.', commandFrom); return; }
+
+    if (!fs.existsSync(saveDirectory + selectedGames[indexSelectedGame][1] + '.json')) {
+        directMessage('There is no game with name \'' + selectedGames[indexSelectedGame][1] + '\'.', commandFrom);
+        return;
+    }
+
+    if (!isPlayerInGame(selectedGames[indexSelectedGame][1], commandFrom)) { directMessage('You have not selected a game. You must select a game before you can ask for orders.', commandFrom); selectedGames.splice(indexSelectedGame, 1); return; }
+
+    var save = JSON.parse(fs.readFileSync(saveDirectory + selectedGames[indexSelectedGame][1] + '.json'));
+
+    for (var c = 0; c < countries.length; c++)
+    {
+        for (var i = 0; i < save.countries[countries[c]].players.length; i++)
+        {
+            if (commandFrom == save.countries[countries[c]].players[i])
+            {
+                if (save.countries[countries[c]].orders.length == 0) { directMessage('There are no current orders.', commandFrom); break; }
+
+                for (var o = 0; o < save.countries[countries[c]].orders.length; o++)
+                {
+                    var txt = save.countries[countries[c]].orders[o].province + ' ' + save.countries[countries[c]].orders[o].order + ' ' + save.countries[countries[c]].orders[o].affect;
+                    directMessage(txt, commandFrom);
+                }
+                break;
+            }
+        }
+    }
+}
+
+function wipeOrders(commandFrom)
+{
+    var indexSelectedGame = -1;
+
+    for (var i = 0; i < selectedGames.length; i++) {
+        if (selectedGames[i][0] == commandFrom) {
+            indexSelectedGame = i;
+            break;
+        }
+    }
+
+    if (indexSelectedGame == -1) { directMessage('You have not selected a game. You must select a game before you can ask for orders.', commandFrom); return; }
+
+    if (!fs.existsSync(saveDirectory + selectedGames[indexSelectedGame][1] + '.json')) {
+        directMessage('There is no game with name \'' + selectedGames[indexSelectedGame][1] + '\'.', commandFrom);
+        return;
+    }
+
+    if (!isPlayerInGame(selectedGames[indexSelectedGame][1], commandFrom)) { directMessage('You have not selected a game. You must select a game before you can ask for orders.', commandFrom); selectedGames.splice(indexSelectedGame, 1); return; }
+
+    var save = JSON.parse(fs.readFileSync(saveDirectory + selectedGames[indexSelectedGame][1] + '.json'));
+
+    var countryIn = '';
+    for (var c = 0; c < countries.length; c++) {
+        for (var i = 0; i < save.countries[countries[c]].players.length; i++) {
+            if (save.countries[countries[c]].players[i] == commandFrom) {
+                countryIn = countries[c];
+            }
+        }
+    }
+    if (countryIn == '') { console.log('There was a problem processing \'delete orders\' from ' + commandFrom + ', who has selected game \'' + selectedGames[indexSelectedGame][1] + '\'. This error should not have occured. Something weird is up.'); directMessage('Your command could not be processed because of an internal problem. You should try quitting and rejoining the game to fix the problem.', commandFrom); return; }
+
+    save.countries[countryIn].orders = [];
+
+    var jsonSave = JSON.stringify(save, null, 2);
+
+    fs.writeFileSync(saveDirectory + selectedGames[indexSelectedGame][1] + '.json', jsonSave);
+
+    directMessage('All orders for you country have been successfully wiped.', commandFrom);
+}
+
+function validOrder(province, order, affect)
+{
+    //use this to find out if something can move to a space or not
+
+    return true;
+}
+
 function tweetTimeWarnings(gameName, save, timeLeft)
 {
     for (var c = 0; c < countries.length; c++)
@@ -970,7 +1206,7 @@ function tweetTimeWarnings(gameName, save, timeLeft)
     }
 }
 
-function directMessagetTimeWarnings(gameName, save, timeLeft) {
+function directMessageTimeWarnings(gameName, save, timeLeft) {
     for (var c = 0; c < countries.length; c++) {
         for (var p = 0; p < save.countries[countries[c]].players.length; p++) {
             directMessage('The next turn for game \'' + gameName + '\' ends in ' + timeLeft + '. Make sure to turn in your orders!', save.countries[countries[c]].players[p]);
