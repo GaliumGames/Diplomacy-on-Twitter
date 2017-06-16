@@ -24,7 +24,6 @@ var emptyGameSave = {
     'countries': {
         'AUSTRIA-HUNGARY': {
             'players': [],
-            'color': [0, 0, 0, 0],
             'provinces': ['bohemia', 'budapest', 'galicia', 'trieste', 'tyrelia', 'vienna'],
             'armies': ['vienna', 'budapest'],
             'fleets': ['tyrelia'],
@@ -32,7 +31,6 @@ var emptyGameSave = {
         },
         'GREAT BRITAIN': {
             'players': [],
-            'color': [0, 0, 0, 0],
             'provinces': ['clyde', 'edinburgh', 'liverpool', 'london', 'wales', 'yorkshire'],
             'armies': ['liverpool'],
             'fleets': ['edinburgh', 'london'],
@@ -40,7 +38,6 @@ var emptyGameSave = {
         },
         'FRANCE': {
             'players': [],
-            'color': [0, 0, 0, 0],
             'provinces': ['brest', 'burgundy', 'gascony', 'marseilles', 'paris', 'picardy'],
             'armies': ['marseilles', 'paris'],
             'fleets': ['brest'],
@@ -48,7 +45,6 @@ var emptyGameSave = {
         },
         'GERMANY': {
             'players': [],
-            'color': [0, 0, 0, 0],
             'provinces': ['berlin', 'kiel', 'munich', 'prussia', 'ruhr', 'silesia'],
             'armies': ['berlin', 'munich'],
             'fleets': ['kiel'],
@@ -56,7 +52,6 @@ var emptyGameSave = {
         },
         'ITALY': {
             'players': [],
-            'color': [0, 0, 0, 0],
             'provinces': ['apulia', 'naples', 'piedmont', 'rome', 'tuscany', 'venice'],
             'armies': ['venice', 'rome'],
             'fleets': ['naples'],
@@ -64,7 +59,6 @@ var emptyGameSave = {
         },
         'RUSSIA': {
             'players': [],
-            'color': [0, 0, 0, 0],
             'provinces': ['livonia', 'moscow', 'sevastopol', 'st petersburg', 'ukraine', 'warsaw'],
             'armies': ['warsaw', 'moscow'],
             'fleets': ['sevastopol', 'st petersburg'],
@@ -72,7 +66,6 @@ var emptyGameSave = {
         },
         'OTTOMANS': {
             'players': [],
-            'color': [0, 0, 0, 0],
             'provinces': ['ankara', 'armenia', 'constantinople', 'smyrna', 'syria'],
             'armies': ['constantinople', 'smyrna'],
             'fleets': ['ankara'],
@@ -325,7 +318,10 @@ function run()
             if (save.countdown <= 0) {
                 console.log('\t\tcountdown over');
                 directMessageTurnOver(runningGames[i], save);
+
                 //do turn calcs and stuff
+                calculateResults(runningGames[i]);
+
                 save.countdown = save.turnLength;
             }
             else if (save.countdown <= (1 / 60) && previousCountdown > (1 / 60)) {
@@ -1193,6 +1189,21 @@ function validOrder(province, order, affect)
     //use this to find out if something can move to a space or not
 
     return true;
+}
+
+function calculateResults(gameName)
+{
+    //aidan do this
+
+    if (!fs.existsSync(saveDirectory + gameName + '.json')) {
+        console.log('There was an error in calculateResults - game \'' + gameName + '\' does not exist.');
+        return;
+    }
+
+    var save = JSON.parse(fs.readFileSync(saveDirectory + gameName + '.json'));
+
+
+
 }
 
 function tweetTimeWarnings(gameName, save, timeLeft)
