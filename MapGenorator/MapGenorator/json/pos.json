@@ -1,0 +1,377 @@
+[
+  {
+    "name": "adriatic sea",
+    "x": 1281,
+    "y": 1686
+  },
+  {
+    "name": "aegean sea",
+    "x": 1074,
+    "y": 1512
+  },
+  {
+    "name": "albania",
+    "x": 1565,
+    "y": 1478
+  },
+  {
+    "name": "ankara",
+    "x": 957,
+    "y": 1514
+  },
+  {
+    "name": "apulia",
+    "x": 1843,
+    "y": 1446
+  },
+  {
+    "name": "armenia",
+    "x": 1037,
+    "y": 747
+  },
+  {
+    "name": "baltic sea",
+    "x": 1424,
+    "y": 81
+  },
+  {
+    "name": "barents sea",
+    "x": 582,
+    "y": 973
+  },
+  {
+    "name": "belgium",
+    "x": 872,
+    "y": 949
+  },
+  {
+    "name": "berlin",
+    "x": 1518,
+    "y": 1337
+  },
+  {
+    "name": "black sea",
+    "x": 927,
+    "y": 1055
+  },
+  {
+    "name": "bohemia",
+    "x": 377,
+    "y": 1051
+  },
+  {
+    "name": "brest",
+    "x": 1118,
+    "y": 1174
+  },
+  {
+    "name": "budapest",
+    "x": 1222,
+    "y": 1428
+  },
+  {
+    "name": "bulgaria",
+    "x": 602,
+    "y": 1110
+  },
+  {
+    "name": "burgundy",
+    "x": 449,
+    "y": 572
+  },
+  {
+    "name": "clyde",
+    "x": 1452,
+    "y": 1504
+  },
+  {
+    "name": "constantinople",
+    "x": 784,
+    "y": 759
+  },
+  {
+    "name": "denmark",
+    "x": 1583,
+    "y": 1746
+  },
+  {
+    "name": "eastern mediterranean",
+    "x": 466,
+    "y": 649
+  },
+  {
+    "name": "edinburgh",
+    "x": 343,
+    "y": 961
+  },
+  {
+    "name": "english channel",
+    "x": 1229,
+    "y": 395
+  },
+  {
+    "name": "finland",
+    "x": 1223,
+    "y": 1106
+  },
+  {
+    "name": "galicia",
+    "x": 417,
+    "y": 1208
+  },
+  {
+    "name": "gascony",
+    "x": 1154,
+    "y": 1661
+  },
+  {
+    "name": "greece",
+    "x": 544,
+    "y": 1390
+  },
+  {
+    "name": "gulf of lyon",
+    "x": 1096,
+    "y": 633
+  },
+  {
+    "name": "gulf of bothnia",
+    "x": 711,
+    "y": 776
+  },
+  {
+    "name": "helgoland bight",
+    "x": 633,
+    "y": 927
+  },
+  {
+    "name": "holland",
+    "x": 979,
+    "y": 1734
+  },
+  {
+    "name": "ionian sea",
+    "x": 262,
+    "y": 884
+  },
+  {
+    "name": "irish sea",
+    "x": 768,
+    "y": 945
+  },
+  {
+    "name": "kiel",
+    "x": 423,
+    "y": 778
+  },
+  {
+    "name": "liverpool",
+    "x": 1180,
+    "y": 755
+  },
+  {
+    "name": "livonia",
+    "x": 478,
+    "y": 902
+  },
+  {
+    "name": "london",
+    "x": 580,
+    "y": 1263
+  },
+  {
+    "name": "marseilles",
+    "x": 135,
+    "y": 1027
+  },
+  {
+    "name": "mid-atlantic ocean",
+    "x": 1724,
+    "y": 766
+  },
+  {
+    "name": "moscow",
+    "x": 776,
+    "y": 1078
+  },
+  {
+    "name": "munich",
+    "x": 860,
+    "y": 1657
+  },
+  {
+    "name": "naples",
+    "x": 156,
+    "y": 460
+  },
+  {
+    "name": "north atlantic ocean",
+    "x": 214,
+    "y": 1736
+  },
+  {
+    "name": "north africa",
+    "x": 641,
+    "y": 631
+  },
+  {
+    "name": "north sea",
+    "x": 784,
+    "y": 598
+  },
+  {
+    "name": "norway",
+    "x": 715,
+    "y": 333
+  },
+  {
+    "name": "norwegian sea",
+    "x": 502,
+    "y": 1086
+  },
+  {
+    "name": "paris",
+    "x": 488,
+    "y": 1009
+  },
+  {
+    "name": "picardy",
+    "x": 707,
+    "y": 1253
+  },
+  {
+    "name": "piedmont",
+    "x": 85,
+    "y": 1321
+  },
+  {
+    "name": "portugal",
+    "x": 991,
+    "y": 902
+  },
+  {
+    "name": "prussia",
+    "x": 840,
+    "y": 1450
+  },
+  {
+    "name": "rome",
+    "x": 695,
+    "y": 1001
+  },
+  {
+    "name": "ruhr",
+    "x": 1237,
+    "y": 1321
+  },
+  {
+    "name": "rumania",
+    "x": 1104,
+    "y": 1372
+  },
+  {
+    "name": "serbia",
+    "x": 1591,
+    "y": 1039
+  },
+  {
+    "name": "sevastopol",
+    "x": 949,
+    "y": 985
+  },
+  {
+    "name": "silesia",
+    "x": 776,
+    "y": 669
+  },
+  {
+    "name": "skagerrak",
+    "x": 1601,
+    "y": 1629
+  },
+  {
+    "name": "smyrna",
+    "x": 236,
+    "y": 1357
+  },
+  {
+    "name": "spain",
+    "x": 1734,
+    "y": 337
+  },
+  {
+    "name": "st petersburg",
+    "x": 943,
+    "y": 629
+  },
+  {
+    "name": "sweden",
+    "x": 1849,
+    "y": 1637
+  },
+  {
+    "name": "syria",
+    "x": 955,
+    "y": 1279
+  },
+  {
+    "name": "trieste",
+    "x": 667,
+    "y": 1714
+  },
+  {
+    "name": "tunis",
+    "x": 778,
+    "y": 1367
+  },
+  {
+    "name": "tuscany",
+    "x": 886,
+    "y": 1180
+  },
+  {
+    "name": "tyrolia",
+    "x": 768,
+    "y": 1516
+  },
+  {
+    "name": "tyrrhenian sea",
+    "x": 1418,
+    "y": 1013
+  },
+  {
+    "name": "ukraine",
+    "x": 836,
+    "y": 1361
+  },
+  {
+    "name": "venice",
+    "x": 971,
+    "y": 1128
+  },
+  {
+    "name": "vienna",
+    "x": 407,
+    "y": 896
+  },
+  {
+    "name": "wales",
+    "x": 1070,
+    "y": 985
+  },
+  {
+    "name": "warsaw",
+    "x": 383,
+    "y": 1567
+  },
+  {
+    "name": "western mediterranean",
+    "x": 488,
+    "y": 820
+  },
+  {
+    "name": "yourkshire",
+    "x": 490,
+    "y": 820
+  }
+]

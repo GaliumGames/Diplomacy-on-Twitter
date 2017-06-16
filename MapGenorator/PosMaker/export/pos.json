@@ -1,52 +1,96 @@
 [
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
+  null,
   {
-    "name": "adriatic sea",
-    "x": 0,
-    "y": 0
+    "name": "venice",
+    "x": 1289,
+    "y": 935
   },
   {
-    "name": "aegean sea",
-    "x": 0,
-    "y": 0
+    "name": "vienna",
+    "x": 917,
+    "y": 1033
   },
   {
-    "name": "albania",
-    "x": 0,
-    "y": 0
+    "name": "wales",
+    "x": 1281,
+    "y": 931
   },
   {
-    "name": "ankara",
-    "x": 0,
-    "y": 0
+    "name": "warsaw",
+    "x": 1072,
+    "y": 993
   },
   {
-    "name": "apulia",
-    "x": 0,
-    "y": 0
-  },
-  {
-    "name": "armenia",
-    "x": 0,
-    "y": 0
-  },
-  {
-    "name": "baltic sea",
-    "x": 0,
-    "y": 0
-  },
-  {
-    "name": "barents sea",
-    "x": 0,
-    "y": 0
-  },
-  {
-    "name": "belgium",
-    "x": 0,
-    "y": 0
-  },
-  {
-    "name": "berlin",
-    "x": 0,
-    "y": 0
+    "name": "western mediterranean",
+    "x": 490,
+    "y": 820
   }
 ]

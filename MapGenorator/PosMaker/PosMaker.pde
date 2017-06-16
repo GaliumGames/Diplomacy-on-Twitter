@@ -86,12 +86,27 @@ void mouseClicked()
     
   JSONObject jProvence = new JSONObject();
 
+  float outputX = ((float)mouseX/(float)xSize) * 1987f;
+  float outputY = ((float)mouseY/(float)ySize) * 1824f;
+
+  println(outputX);
+  println(outputY);
+
   jProvence.setString("name", country);
-  jProvence.setInt("x", (mouseX/xSize) * 1987);
-  jProvence.setInt("y", (mouseY/ySize) * 1824);
+  jProvence.setInt("x", (int)outputX);
+  jProvence.setInt("y", (int)outputY);
   
   output.setJSONObject(index - 1, jProvence);
+  
+  saveJSONArray(output, "export/pos.json");
   }
+
+  if (index > totalTiles)
+  {
+    exit();
+  }
+
+  index++;
 
     //other code
   JSONObject provenceJ = provences.getJSONObject(index);  
@@ -117,12 +132,7 @@ void mouseClicked()
   }
 
   redraw = true;
-  index++;
-  if (index > totalTiles)
-  {
-    saveJSONArray(output, "export/pos.json");
-    exit();
-  }
+  
 }
 
 void draw ()
