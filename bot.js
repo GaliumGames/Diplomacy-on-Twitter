@@ -81,13 +81,13 @@ var emptyGameSave = {
     'countdown': 0
 };
 
-var emptyOrderFormat = {                 
+var emptyOrderFormat = {
     'province': '',
     'order': '',
-    'affect': ''                 
+    'affect': ''
 };
 
-//this var is rather messy but it will be extremely useful when generating a picture of the current game map. 
+//this var is rather messy but it will be extremely useful when generating a picture of the current game map.
 //the grayscale colors of each province will be in the color var for each province, and the center of the province (for placing armies and fleet icons) will be in the center pos var (probably in pixel coordinates)
 //we won't be needing it probably
 /*var provinces = {
@@ -199,28 +199,28 @@ var abbreviations = [
     ['london', 'lon'],
     ['wales', 'wal'],
     ['yorkshire', 'yor'],
-	
+
 	['brest', 'bre'],
 	['burgundy', 'bur'],
 	['gascony', 'gas'],
 	['marseilles', 'mar'],
 	['paris', 'par', 'prs'],
 	['picardy', 'pic', 'pcrd'],
-	
+
 	['berlin', 'ber'],
 	['kiel', 'kie'],
 	['munich', 'mun'],
 	['prussia', 'pru', 'prss'],
 	['ruhr', 'ruh'],
 	['silesia', 'sil', 'sls'],
-	
+
 	['apulia', 'apu', 'apl'],
     ['naples', 'nap', 'npl'],
     ['piedmont', 'pie'],
     ['rome', 'rom'],
     ['tuscany', 'tus', 'tsc'],
     ['venice', 'ven', 'vnc'],
-	
+
 	['livonia', 'liv'],
     ['moscow', 'mos'],
     ['sevastopol', 'sev'],
@@ -347,16 +347,16 @@ function run()
 
             var jsonSave = JSON.stringify(save, null, 2);
             fs.writeFileSync(saveDirectory + runningGames[i] + '.json', jsonSave);
-        }      
+        }
     }
 
     lastUpdateTime = currentTime;
 }
 
 function tweetEvent(eventMsg) {
-	
+
     var replyTo = eventMsg.in_reply_to_screen_name; //to
-    //var personFrom = eventMsg.personFrom; 
+    //var personFrom = eventMsg.personFrom;
 	var text = eventMsg.text;
 	var senderUserName = eventMsg.user.screen_name; //from, @name
 	var senderName = eventMsg.user.name; //from, name
@@ -364,9 +364,9 @@ function tweetEvent(eventMsg) {
 	if(replyTo === 'JohnLockeBot')
 	{
 	    console.log('The bot has been tweeted by ' + senderUserName + ' - \'' + text + '\'');
-		
+
 		text = text.replace(/@JohnLockeBot /g, '');
-		
+
 	    //var split = text.split('[');
 	    //text = split[0];
 	    //var split2 = split[1].split(']');
@@ -424,9 +424,9 @@ function unfollowEvent(eventMessage)
 }
 
 function tweet(txt, personTo) {
-	
+
 	//txt += '[' + String(Math.floor(Math.random() * 10000)) + ']';
-	
+
     if (personTo != '')
     {
         txt = '@' + personTo + ' ' + txt + '\n[' + String(Math.floor(Math.random() * 10000)) + ']';
@@ -437,14 +437,14 @@ function tweet(txt, personTo) {
 	}
 
 	T.post('statuses/update', tweet, tweeted);
-	
+
 	function tweeted(err, data, response) {
 		if (err) {
 			console.log('Somthing went wrong when trying to tweet!');
 			dumpError(err);
 		}
 		else{
-			console.log('Sent tweet: \'' + txt + '\'');		
+			console.log('Sent tweet: \'' + txt + '\'');
 		}
 	}
 }
@@ -597,7 +597,7 @@ function scanDirectMessage(twt, personFrom)
     if (twt.includes('abbreviations '))
     {
         var context = twt.replace('abbreviations ', '');
-        
+
         directMessageAppreviations(context, personFrom);
         return;
     }
@@ -650,7 +650,7 @@ function isPlayerInGame(gameName, player)
     }
 
     var save = JSON.parse(fs.readFileSync(saveDirectory + gameName + '.json'));
-	
+
 	for (var c = 0; c < countries.length; c++)
 	{
 		for (var i = 0; i < save.countries[countries[c]].players.length; i++)
@@ -661,7 +661,7 @@ function isPlayerInGame(gameName, player)
             }
 		}
 	}
-	
+
 	return false;
 }
 
@@ -679,7 +679,7 @@ function addPlayerToGame(gameName, player, country) //add a player to a country
     var save = JSON.parse(fs.readFileSync(saveDirectory + gameName + '.json'));
 
     if (save.locked) { directMessage('You cannot join game \'' + gameName + '\' - it is locked!', player); return; }
-	
+
     if (isPlayerInGame(gameName, player)) { directMessage('You could not join game \'' + gameName + '\' because you are already in it.', player); return; }
 
 	if (save.countries[country] == undefined) {
@@ -709,7 +709,7 @@ function removePlayerFromGame(gameName, player)
     }
 
     var save = JSON.parse(fs.readFileSync(saveDirectory + gameName + '.json'));
-	
+
     if (!isPlayerInGame(gameName, player)) { directMessage('You are not in game \'' + gameName + '\', so you cannot quit.', player); return; }
 
     for (var c = 0; c < countries.length; c++)
@@ -860,9 +860,9 @@ function deleteGame(gameName, commandFrom) //delete the save file
         directMessage('There is no game with name \'' + gameName + '\'.', commandFrom);
         return;
     }
-	
+
     var save = JSON.parse(fs.readFileSync(saveDirectory + gameName + '.json'));
-	
+
     if (save.admin != commandFrom) { directMessage('You do not have the authority to delete game \'' + gameName + '\'. You are not the admin.', commandFrom); return; }
 
     runningGames.splice(runningGames.indexOf(gameName), 1);
@@ -876,7 +876,7 @@ function deleteGame(gameName, commandFrom) //delete the save file
         }
     }
 
-    fs.unlinkSync(saveDirectory + gameName + '.json');	
+    fs.unlinkSync(saveDirectory + gameName + '.json');
     directMessage('Game \'' + gameName + '\' has been deleted. Thank you for playing!', commandFrom);
     for (var i = 0; i < countries.length; i++)
     {
@@ -903,7 +903,7 @@ function setResetAt(gameName, num, commandFrom)
     if (save.admin != commandFrom) { directMessage('You do not have the authority to set resetAt in game \'' + gameName + '\'. You are not the admin.', commandFrom); return; }
 
     var set = parseFloat(num.replace(/[^\d.]/g, ''));
-    
+
     if (set == NaN || set == null) { console.log('Could not parse float: ' + num); directMessage('There was a problem with your command. ' + num + ' is not a number, so resetAt cannot be set to it.', commandFrom); return; }
 
     if (set < 0 || set > 24) { directMessage('There was a problem with your command. ' + num + ' is not a valid time for resetAt.', commandFrom); return; }
@@ -1047,7 +1047,7 @@ function orders(text, commandFrom)
             }
         }
     }
-    
+
     var actualProvince = false;
     for (var i = 0; i < abbreviations.length; i++)
     {
@@ -1270,7 +1270,7 @@ function stringifyAppreviations(province)
     return string;
 }
 
-function dumpError(err) 
+function dumpError(err)
 {
 	var json = JSON.stringify(err, null, 2);
 	fs.writeFileSync(__dirname + '\\err.json', json);

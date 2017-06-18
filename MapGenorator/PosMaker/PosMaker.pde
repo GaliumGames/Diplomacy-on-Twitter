@@ -24,7 +24,7 @@ double aspectRatio = 1824/1987;
 int ySize = 918; //(int)(xSize * aspectRatio);
 
 //tally
-int index = 0;
+int index = 70;
 
 void setup ()
 {
@@ -77,62 +77,61 @@ void setup ()
 
 void mouseClicked()
 {
-  String country = "";
-  //json saving
-  if(index > 0)
-  { 
-  JSONObject provenceJ = provences.getJSONObject(index - 1);  
-  country = provenceJ.getString("name"); 
-    
-  JSONObject jProvence = new JSONObject();
+  //String country = "";
+  ////json saving
+  //if (index > 0)
+  //{ 
+  //  JSONObject provenceJ = provences.getJSONObject(index - 1);  
+  //  country = provenceJ.getString("name"); 
 
-  float outputX = ((float)mouseX/(float)xSize) * 1987f;
-  float outputY = ((float)mouseY/(float)ySize) * 1824f;
+  //  JSONObject jProvence = new JSONObject();
 
-  println(outputX);
-  println(outputY);
+  //  float outputX = ((float)mouseX/(float)xSize) * 1987f;
+  //  float outputY = ((float)mouseY/(float)ySize) * 1824f;
 
-  jProvence.setString("name", country);
-  jProvence.setInt("x", (int)outputX);
-  jProvence.setInt("y", (int)outputY);
-  
-  output.setJSONObject(index - 1, jProvence);
-  
-  saveJSONArray(output, "export/pos.json");
-  }
+  //  println(outputX);
+  //  println(outputY);
 
-  if (index > totalTiles)
-  {
-    exit();
-  }
+  //  jProvence.setString("name", country);
+  //  jProvence.setInt("x", (int)outputX);
+  //  jProvence.setInt("y", (int)outputY);
 
-  index++;
+  //  output.setJSONObject(index - 1, jProvence);
 
-    //other code
-  JSONObject provenceJ = provences.getJSONObject(index);  
-  country = provenceJ.getString("name"); 
-  println(country);
-    
-    select = color(11, 12, 13);
+  //  saveJSONArray(output, "export/pos.json");
+  //}
 
-  for (int i = 0; i < colorKey.size(); i++)
-  {
-    JSONObject cKey = colorKey.getJSONObject(i);  
-    int[] cColor = new int[3];
-    cColor[0] = cKey.getInt("red");
-    cColor[1] = cKey.getInt("green");
-    cColor[2] = cKey.getInt("blue");
+  //if (index > totalTiles)
+  //{
+  //  exit();
+  //}
 
-    if (cKey.getString("name").equals(country))
-    { 
-      select = color(cColor[0], cColor[1], cColor[2]);
-    }
+  //index++;
 
-    allElse[i] = color(cColor[0], cColor[1], cColor[2]);
-  }
+  ////other code
+  //JSONObject provenceJ = provences.getJSONObject(index);  
+  //country = provenceJ.getString("name"); 
+  //println(country);
 
-  redraw = true;
-  
+  //select = color(11, 12, 13);
+
+  //for (int i = 0; i < colorKey.size(); i++)
+  //{
+  //  JSONObject cKey = colorKey.getJSONObject(i);  
+  //  int[] cColor = new int[3];
+  //  cColor[0] = cKey.getInt("red");
+  //  cColor[1] = cKey.getInt("green");
+  //  cColor[2] = cKey.getInt("blue");
+
+  //  if (cKey.getString("name").equals(country))
+  //  { 
+  //    select = color(cColor[0], cColor[1], cColor[2]);
+  //  }
+
+  //  allElse[i] = color(cColor[0], cColor[1], cColor[2]);
+  //}
+
+  //redraw = true;
 }
 
 void draw ()
@@ -171,5 +170,10 @@ void draw ()
     background(0);
     image(currentMap, 0, 0);
     image(mouseImg, mouseX, mouseY);
+
+    if (mousePressed)
+    {
+      println("X: " + ((float)mouseX/(float)xSize) * 1987f + "\nY: " + ((float)mouseY/(float)ySize) * 1824f);
+    }
   }
 }
