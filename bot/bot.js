@@ -1,13 +1,11 @@
 /*
 crap to do:
 
-  -add the ability to join a country in lobby
   -add help command
   -Fix abbreviations command
   -add syntax for help
   -finish game code
 
-  -
 */
 console.log('initializing...');
 
