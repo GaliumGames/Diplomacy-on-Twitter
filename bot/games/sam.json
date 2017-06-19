@@ -1,0 +1,160 @@
+{
+  "locked": false,
+  "admin": "ReRamp",
+  "countries": {
+    "AUSTRIA-HUNGARY": {
+      "players": [],
+      "provinces": [
+        "bohemia",
+        "budapest",
+        "galicia",
+        "trieste",
+        "tyrelia",
+        "vienna"
+      ],
+      "armies": [
+        "vienna",
+        "budapest"
+      ],
+      "fleets": [
+        "trieste"
+      ],
+      "orders": []
+    },
+    "GREAT BRITAIN": {
+      "players": [],
+      "provinces": [
+        "clyde",
+        "edinburgh",
+        "liverpool",
+        "london",
+        "wales",
+        "yorkshire"
+      ],
+      "armies": [
+        "liverpool"
+      ],
+      "fleets": [
+        "edinburgh",
+        "london"
+      ],
+      "orders": []
+    },
+    "FRANCE": {
+      "players": [],
+      "provinces": [
+        "brest",
+        "burgundy",
+        "gascony",
+        "marseilles",
+        "paris",
+        "picardy"
+      ],
+      "armies": [
+        "marseilles",
+        "paris"
+      ],
+      "fleets": [
+        "brest"
+      ],
+      "orders": []
+    },
+    "GERMANY": {
+      "players": [],
+      "provinces": [
+        "berlin",
+        "kiel",
+        "munich",
+        "prussia",
+        "ruhr",
+        "silesia"
+      ],
+      "armies": [
+        "berlin",
+        "munich"
+      ],
+      "fleets": [
+        "kiel"
+      ],
+      "orders": []
+    },
+    "ITALY": {
+      "players": [],
+      "provinces": [
+        "apulia",
+        "naples",
+        "piedmont",
+        "rome",
+        "tuscany",
+        "venice"
+      ],
+      "armies": [
+        "venice",
+        "rome"
+      ],
+      "fleets": [
+        "naples"
+      ],
+      "orders": []
+    },
+    "RUSSIA": {
+      "players": [],
+      "provinces": [
+        "livonia",
+        "moscow",
+        "sevastopol",
+        "st petersburg",
+        "ukraine",
+        "warsaw"
+      ],
+      "armies": [
+        "warsaw",
+        "moscow"
+      ],
+      "fleets": [
+        "sevastopol",
+        "st petersburg"
+      ],
+      "orders": []
+    },
+    "OTTOMANS": {
+      "players": [],
+      "provinces": [
+        "ankara",
+        "armenia",
+        "constantinople",
+        "smyrna",
+        "syria"
+      ],
+      "armies": [
+        "constantinople",
+        "smyrna"
+      ],
+      "fleets": [
+        "ankara"
+      ],
+      "orders": []
+    },
+    "NEUTRAL": {
+      "provinces": [
+        "albania",
+        "belgium",
+        "bulgaria",
+        "finland",
+        "greece",
+        "holland",
+        "norway",
+        "north africa",
+        "portugal",
+        "rumania",
+        "serbia",
+        "spain",
+        "sweden",
+        "tunis"
+      ]
+    }
+  },
+  "resetAt": 24,
+  "turnLength": 12,
+  "countdown": 0
+}

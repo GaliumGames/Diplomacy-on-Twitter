@@ -1,0 +1,338 @@
+[
+  {
+    "name": "albania",
+    "red": 10,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "ankara",
+    "red": 20,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "apulia",
+    "red": 30,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "armenia",
+    "red": 40,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "belgium",
+    "red": 50,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "berlin",
+    "red": 60,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "bohemia",
+    "red": 70,
+    "green": 10,
+    "blue" : 10
+  },
+  {
+    "name": "brest",
+    "red": 80,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "budapest",
+    "red": 90,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "bulgaria",
+    "red": 100,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "burgundy",
+    "red": 110,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "clyde",
+    "red": 120,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "constantinople",
+    "red": 130,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "denmark",
+    "red": 140,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "edinburgh",
+    "red": 150,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "finland",
+    "red": 160,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "galicia",
+    "red": 170,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "gascony",
+    "red": 180,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "greece",
+    "red": 190,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "holland",
+    "red": 200,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "kiel",
+    "red": 210,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "liverpool",
+    "red": 220,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "livonia",
+    "red": 230,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "london",
+    "red": 240,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "marseilles",
+    "red": 250,
+    "green": 10,
+    "blue": 10
+  },
+  {
+    "name": "moscow",
+    "red": 10,
+    "green": 20,
+    "blue": 10
+  },
+  {
+    "name": "munich",
+    "red": 10,
+    "green": 30,
+    "blue": 10
+  },
+  {
+    "name": "naples",
+    "red": 10,
+    "green": 40,
+    "blue": 10
+  },
+  {
+    "name": "north africa",
+    "red": 10,
+    "green": 50,
+    "blue": 10
+  },
+  {
+    "name": "norway",
+    "red": 10,
+    "green": 60,
+    "blue": 10
+  },
+  {
+    "name": "paris",
+    "red": 10,
+    "green": 70,
+    "blue": 10
+  },
+  {
+    "name": "picardy",
+    "red": 10,
+    "green": 80,
+    "blue": 10
+  },
+  {
+    "name": "piedmont",
+    "red": 10,
+    "green": 90,
+    "blue": 10
+  },
+  {
+    "name": "portugal",
+    "red": 10,
+    "green": 100,
+    "blue": 10
+  },
+  {
+    "name": "prussia",
+    "red": 10,
+    "green": 110,
+    "blue": 10
+  },
+  {
+    "name": "rome",
+    "red": 10,
+    "green": 120,
+    "blue": 10
+  },
+  {
+    "name": "ruhr",
+    "red": 10,
+    "green": 10,
+    "blue": 200
+  },
+  {
+    "name": "rumania",
+    "red": 10,
+    "green": 130,
+    "blue": 10
+  },
+  {
+    "name": "serbia",
+    "red": 10,
+    "green": 140,
+    "blue": 10
+  },
+  {
+    "name": "sevastopol",
+    "red": 10,
+    "green": 150,
+    "blue": 10
+  },
+  {
+    "name": "silesia",
+    "red": 10,
+    "green": 160,
+    "blue": 10
+  },
+  {
+    "name": "smyrna",
+    "red": 10,
+    "green": 170,
+    "blue": 10
+  },
+  {
+    "name": "spain",
+    "red": 10,
+    "green": 180,
+    "blue": 10
+  },
+  {
+    "name": "st petersburg",
+    "red": 10,
+    "green": 190,
+    "blue": 10
+  },
+  {
+    "name": "sweden",
+    "red": 10,
+    "green": 10,
+    "blue": 50
+  },
+  {
+    "name": "syria",
+    "red": 10,
+    "green": 10,
+    "blue": 60
+  },
+  {
+    "name": "trieste",
+    "red": 10,
+    "green": 200,
+    "blue": 10
+  },
+  {
+    "name": "tunis",
+    "red": 10,
+    "green": 210,
+    "blue": 10
+  },
+  {
+    "name": "tuscany",
+    "red": 10,
+    "green": 220,
+    "blue": 10
+  },
+  {
+    "name": "tyrelia",
+    "red": 17,
+    "green": 239,
+    "blue": 17
+  },
+  {
+    "name": "ukraine",
+    "red": 10,
+    "green": 240,
+    "blue": 10
+  },
+  {
+    "name": "venice",
+    "red": 10,
+    "green": 250,
+    "blue": 10
+  },
+  {
+    "name": "vienna",
+    "red": 10,
+    "green": 10,
+    "blue": 20
+  },
+  {
+    "name": "wales",
+    "red": 10,
+    "green": 10,
+    "blue": 30
+  },
+  {
+    "name": "warsaw",
+    "red": 10,
+    "green": 10,
+    "blue": 100
+  },
+  {
+    "name" : "yorkshire",
+    "red" : 10,
+    "green" : 10,
+    "blue" : 40
+  }
+]

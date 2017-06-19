@@ -62,7 +62,7 @@ void setup ()
   posKey = loadJSONArray("json/pos.json");
 
   //init saves
-  save = loadJSONObject("json/save.json");
+  save = loadJSONObject("input/save.json");
   JSONObject countries = save.getJSONObject("countries");
 
   //init countrys
@@ -262,12 +262,12 @@ void draw ()
       {
       case 0:
         armies = austria.getJSONArray("armies");
-        
+
         for (int i2 = 0; i2 < armies.size(); i2++)
         {
           int xPos = findPos(armies.getString(i2), true);
           int yPos = findPos(armies.getString(i2), false);
-          
+
           //println(xPos + " " + yPos);
           image(armyImg, xPos, yPos);
         }
@@ -277,20 +277,20 @@ void draw ()
         {
           int xPos = findPos(fleets.getString(i2), true);
           int yPos = findPos(fleets.getString(i2), false);
-          
+
           //println(xPos + " " + yPos);
           image(fleetImg, xPos, yPos);
         }
         break;
-        
+
         case 1:
         armies = britain.getJSONArray("armies");
-        
+
         for (int i2 = 0; i2 < armies.size(); i2++)
         {
           int xPos = findPos(armies.getString(i2), true);
           int yPos = findPos(armies.getString(i2), false);
-          
+
           //println(xPos + " " + yPos);
           image(armyImg, xPos, yPos);
         }
@@ -300,20 +300,20 @@ void draw ()
         {
           int xPos = findPos(fleets.getString(i2), true);
           int yPos = findPos(fleets.getString(i2), false);
-          
+
           //println(xPos + " " + yPos);
           image(fleetImg, xPos, yPos);
         }
         break;
-        
+
         case 2:
         armies = france.getJSONArray("armies");
-        
+
         for (int i2 = 0; i2 < armies.size(); i2++)
         {
           int xPos = findPos(armies.getString(i2), true);
           int yPos = findPos(armies.getString(i2), false);
-          
+
           //println(xPos + " " + yPos);
           image(armyImg, xPos, yPos);
         }
@@ -323,20 +323,20 @@ void draw ()
         {
           int xPos = findPos(fleets.getString(i2), true);
           int yPos = findPos(fleets.getString(i2), false);
-          
+
           //println(xPos + " " + yPos);
           image(fleetImg, xPos, yPos);
         }
         break;
-        
+
         case 3:
         armies = germany.getJSONArray("armies");
-        
+
         for (int i2 = 0; i2 < armies.size(); i2++)
         {
           int xPos = findPos(armies.getString(i2), true);
           int yPos = findPos(armies.getString(i2), false);
-          
+
           //println(xPos + " " + yPos);
           image(armyImg, xPos, yPos);
         }
@@ -346,20 +346,20 @@ void draw ()
         {
           int xPos = findPos(fleets.getString(i2), true);
           int yPos = findPos(fleets.getString(i2), false);
-          
+
           //println(xPos + " " + yPos);
           image(fleetImg, xPos, yPos);
         }
         break;
-        
+
         case 4:
         armies = italy.getJSONArray("armies");
-        
+
         for (int i2 = 0; i2 < armies.size(); i2++)
         {
           int xPos = findPos(armies.getString(i2), true);
           int yPos = findPos(armies.getString(i2), false);
-          
+
           //println(xPos + " " + yPos);
           image(armyImg, xPos, yPos);
         }
@@ -369,20 +369,20 @@ void draw ()
         {
           int xPos = findPos(fleets.getString(i2), true);
           int yPos = findPos(fleets.getString(i2), false);
-          
+
           //println(xPos + " " + yPos);
           image(fleetImg, xPos, yPos);
         }
         break;
-        
+
         case 5:
         armies = russia.getJSONArray("armies");
-        
+
         for (int i2 = 0; i2 < armies.size(); i2++)
         {
           int xPos = findPos(armies.getString(i2), true);
           int yPos = findPos(armies.getString(i2), false);
-          
+
           //println(xPos + " " + yPos);
           image(armyImg, xPos, yPos);
         }
@@ -392,20 +392,20 @@ void draw ()
         {
           int xPos = findPos(fleets.getString(i2), true);
           int yPos = findPos(fleets.getString(i2), false);
-          
+
           //println(xPos + " " + yPos);
           image(fleetImg, xPos, yPos);
         }
         break;
-        
+
         case 6:
         armies = ottoman.getJSONArray("armies");
-        
+
         for (int i2 = 0; i2 < armies.size(); i2++)
         {
           int xPos = findPos(armies.getString(i2), true);
           int yPos = findPos(armies.getString(i2), false);
-          
+
           //println(xPos + " " + yPos);
           image(armyImg, xPos, yPos);
         }
@@ -415,7 +415,7 @@ void draw ()
         {
           int xPos = findPos(fleets.getString(i2), true);
           int yPos = findPos(fleets.getString(i2), false);
-          
+
           //println(xPos + " " + yPos);
           image(fleetImg, xPos, yPos);
         }

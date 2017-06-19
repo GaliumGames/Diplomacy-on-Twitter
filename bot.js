@@ -3,6 +3,8 @@ console.log('initializing...');
 var fs = require('fs');
 var path = require('path');
 var Twit = require('twit');
+var exec = require('child_process').execFile;
+
 
 var config = require('./config');
 var T = new Twit(config);
@@ -618,7 +620,21 @@ function scanDirectMessage(twt, personFrom)
         return;
     }
 
+    if (twt == 'view map')
+    {
+        viewMap(game);
+        return;
+    }
+
     directMessage('Command not recognized.', personFrom);
+}
+
+function viewMap(gameName)
+{
+  exec('MapGenorator.exe', function(err, data) {
+        console.log(err)
+        console.log(data.toString());
+    });
 }
 
 function createGame(gameName, admin)

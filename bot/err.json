@@ -1,0 +1,19 @@
+{
+  "message": "Not authorized to use this endpoint.",
+  "code": 37,
+  "allErrors": [
+    {
+      "code": 37,
+      "message": "Not authorized to use this endpoint."
+    }
+  ],
+  "twitterReply": {
+    "errors": [
+      {
+        "code": 37,
+        "message": "Not authorized to use this endpoint."
+      }
+    ]
+  },
+  "statusCode": 403
+}
